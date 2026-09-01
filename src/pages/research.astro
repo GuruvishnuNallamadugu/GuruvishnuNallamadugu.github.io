@@ -62,7 +62,16 @@ const method = [
         </div>
 
         <div class="border border-line">
-          <OrbitSimulator client:visible />
+          <!--
+            client:idle, not client:visible. Astro renders islands as
+            <astro-island display:contents>, which has no layout box, so the
+            visible directive falls back to observing the island's children —
+            and in the production build that observer is registered before
+            those children are parsed, so it observes nothing and the
+            component never hydrates. Verified broken on the deployed site.
+            idle has no DOM dependency and still keeps JS off the critical path.
+          -->
+          <OrbitSimulator client:idle />
         </div>
 
         <p class="mt-5 max-w-3xl text-sm text-muted leading-relaxed">
