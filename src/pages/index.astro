@@ -198,11 +198,13 @@ const ticker = [...skillTicker, ...skillTicker];
         }
       </div>
 
-      <!-- Portrait + current role -->
-      <aside class="lg:col-span-5 space-y-6" data-reveal data-reveal-delay="120">
-        <Portrait class="max-w-[420px] lg:ml-auto" />
+      <!-- Portrait + current role. Sticks as a unit, so it reads correctly
+           whether or not a portrait is present. -->
+      <aside class="lg:col-span-5" data-reveal data-reveal-delay="120">
+        <div class="lg:sticky lg:top-28 space-y-6">
+          <Portrait class="max-w-[420px] lg:ml-auto" />
 
-        <div class="panel p-7">
+          <div class="panel p-7">
           <p class="mono-label">Currently</p>
           <h3 class="mt-4 text-xl">{experience[0].title}</h3>
           <p class="mt-1.5 text-sm text-accent">{experience[0].company}</p>
@@ -228,6 +230,7 @@ const ticker = [...skillTicker, ...skillTicker];
           <a href="/experience/" class="btn btn-ghost w-full mt-7">
             Full background
           </a>
+          </div>
         </div>
       </aside>
     </div>
