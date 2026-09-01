@@ -4,7 +4,7 @@ Personal engineering portfolio — **Guruvishnu Nallamadugu**, Mechanical Design
 
 **Live:** https://guruvishnunallamadugu.github.io
 
-Built with [Astro](https://astro.build) (static output), React islands, Tailwind CSS v4, and Three.js. Deployed automatically to GitHub Pages on every push to `main`.
+Built with [Astro](https://astro.build) (static output), Tailwind CSS v4, Three.js, and one React island. Deployed automatically to GitHub Pages on every push to `main`.
 
 ---
 
@@ -132,7 +132,8 @@ src/
 │   ├── ProjectCard.astro
 │   ├── ProjectDiagram.astro  Generated blueprint SVGs
 │   ├── SkillMeter.astro      Three-segment proficiency meter
-│   ├── WireframeAssembly.tsx React island — Three.js hero (desktop only)
+│   ├── Portrait.astro        Optional photo, rendered only if one exists
+│   ├── WireframeAssembly.astro  Three.js hero, vanilla (desktop only)
 │   └── OrbitSimulator.tsx    React island — interactive orbit solver
 ├── pages/                    One file per route
 └── styles/global.css         Design tokens + component classes
@@ -140,12 +141,19 @@ src/
 
 ### Performance notes
 
-Astro ships **zero JavaScript by default** — pages are static HTML. Only two components hydrate:
+Astro ships **zero JavaScript by default** — pages are static HTML. Only two components run JS:
 
-- **`WireframeAssembly`** uses `client:media="(min-width: 1024px)"`, so phones never download the ~230 kB (gzipped) WebGL bundle. Everyone gets a server-rendered SVG first; desktop upgrades it to the animated version after mount.
-- **`OrbitSimulator`** uses `client:visible` — it loads only once you scroll it into view.
+- **`WireframeAssembly.astro`** (homepage hero) drives three.js directly, with no React. The server renders an SVG; on desktop, with motion allowed, a small script dynamically imports three.js at idle and cross-fades a canvas over the SVG once a frame has actually painted. Phones request the three.js chunk **zero** times. The homepage ships no React at all.
+- **`OrbitSimulator.tsx`** (research page) is the only React island, using `client:idle`.
 
 Both respect `prefers-reduced-motion` and fall back to static renders.
+
+**Two production-only bugs worth knowing about**, since both passed in dev and failed on the deployed site:
+
+1. `client:visible` did not hydrate the simulator. Astro renders islands as `<astro-island>` with `display: contents`, which has no layout box, so the directive observes the island's *children* — and in the production build that observer registers before the children are parsed. Fixed by using `client:idle`.
+2. `@react-three/fiber`'s `<Canvas>` never measured its container, leaving the canvas at its default 300x150 drawing nothing. Fixed by dropping R3F and sizing the renderer explicitly.
+
+**Always verify with `npm run preview` (the built output), not `npm run dev`.** The dev server hydrates differently and hides both of these.
 
 ### The orbit simulator
 
