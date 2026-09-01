@@ -100,14 +100,14 @@ It appears on the next build with no code change. Astro handles the rest at buil
 **Framing.** The frame is 4:5 and the photo is cropped with `object-fit: cover`, so a tall source is fine. If the crop sits wrong, adjust one value in `src/components/Portrait.astro`:
 
 ```astro
-focus = "58% 34%"   /* horizontal%, vertical% — lower the second number to move the crop up */
+focus = "50% 32%"   /* horizontal%, vertical% — lower the second number to move the crop up */
 ```
 
 Or override per use: `<Portrait focus="50% 25%" />`.
 
 **Treatment.** The image sits at 82% saturation at rest and returns to full colour on hover, which keeps a busy background from fighting the site's palette. To disable, delete the `filter` rules in that component's `<style>` block.
 
-**Caption.** Defaults to "New York, NY". Change it with `<Portrait caption="Starkville, MS" />`.
+**Caption.** Defaults to your `profile.location` from `src/data/site.ts` ("Starkville, Mississippi"). Override it with `<Portrait caption="New York, NY" />`.
 
 ---
 
