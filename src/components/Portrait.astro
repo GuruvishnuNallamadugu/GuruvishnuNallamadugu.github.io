@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import portrait from "@/assets/portrait.jpg";
+import { profile } from "@/data/site";
+
+interface Props {
+  /** Caption line under the image, drawing-title-block style. */
+  caption?: string;
+  class?: string;
+  /**
+   * Framing, as CSS object-position. The source is a full-body shot, so the
+   * default pulls the crop up and slightly right to sit on the subject.
+   * Tune these two numbers if the framing looks off — nothing else changes.
+   */
+  focus?: string;
+}
+
+const {
+  caption = "New York, NY",
+  class: className = "",
+  focus = "58% 34%",
+} = Astro.props;
+---
+
+<figure class={`panel corner-ticks group !p-0 overflow-hidden ${className}`}>
+  <div class="relative aspect-[4/5] overflow-hidden bg-void">
+    <Image
+      src={portrait}
+      alt={`${profile.name}, ${profile.role}`}
+      widths={[400, 640, 900]}
+      sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 90vw"
+      loading="lazy"
+      decoding="async"
+      class="portrait-img absolute inset-0 w-full h-full object-cover"
+      style={`object-position: ${focus};`}
+    />
+
+    <!-- Tints the busy neon background toward the site palette at rest,
+         then releases to full colour on hover. -->
+    <div
+      class="absolute inset-0 pointer-events-none bg-base/25 mix-blend-multiply transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0"
+    >
+    </div>
+
+    <!-- Bottom scrim so the caption strip reads against any frame -->
+    <div
+      class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-base to-transparent pointer-events-none"
+    >
+    </div>
+
+    <!-- Registration marks, matching the hero -->
+    <div class="absolute inset-3 pointer-events-none" aria-hidden="true">
+      {
+        [
+          "top-0 left-0 border-t border-l",
+          "top-0 right-0 border-t border-r",
+          "bottom-0 left-0 border-b border-l",
+          "bottom-0 right-0 border-b border-r",
+        ].map((pos) => (
+          <span class={`absolute w-4 h-4 border-ink/25 ${pos}`} />
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Title block -->
+  <figcaption
+    class="flex items-center justify-between gap-3 border-t border-line px-4 py-3"
+  >
+    <span class="mono-label !text-[9px]">{profile.shortName}</span>
+    <span class="mono-label !text-[9px] !text-accent">{caption}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .portrait-img {
+    filter: saturate(0.82) contrast(1.06);
+    transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .group:hover .portrait-img {
+    filter: saturate(1) contrast(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portrait-img {
+      filter: none;
+      transition: none;
+    }
+  }
+</style>

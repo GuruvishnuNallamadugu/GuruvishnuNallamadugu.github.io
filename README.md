@@ -85,6 +85,32 @@ Keep the same aspect ratios — `16/10` on cards, `21/9` on the case-study heade
 
 ---
 
+## Your portrait
+
+> ⚠️ **`src/assets/portrait.jpg` is currently a generated placeholder.** Replace it before you publish, or the site will show a "PORTRAIT PLACEHOLDER" card in the About section.
+
+Save your photo over that exact path, keeping the filename:
+
+```
+src/assets/portrait.jpg
+```
+
+Astro handles the rest at build time — it generates responsive WebP variants at 400/640/900 px wide and serves the right one per device. No manual resizing or optimising needed.
+
+**Framing.** The frame is 4:5 and the photo is cropped with `object-fit: cover`, so a tall source is fine. If the crop sits wrong, adjust one value in `src/components/Portrait.astro`:
+
+```astro
+focus = "58% 34%"   /* horizontal%, vertical% — lower the second number to move the crop up */
+```
+
+Or override per use: `<Portrait focus="50% 25%" />`.
+
+**Treatment.** The image sits at 82% saturation at rest and returns to full colour on hover, which keeps a busy background from fighting the site's palette. To disable, delete the `filter` rules in that component's `<style>` block.
+
+**Caption.** Defaults to "New York, NY". Change it with `<Portrait caption="Starkville, MS" />`.
+
+---
+
 ## Updating the résumé
 
 Replace `public/assets/Guruvishnu_Nallamadugu_Resume.pdf` with the new file, keeping the same filename. The download links pick it up automatically.

@@ -4,6 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/Section.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import WireframeAssembly from "@/components/WireframeAssembly";
+import Portrait from "@/components/Portrait.astro";
 import {
   profile,
   metrics,
@@ -197,9 +198,11 @@ const ticker = [...skillTicker, ...skillTicker];
         }
       </div>
 
-      <!-- Current role card -->
-      <aside class="lg:col-span-5" data-reveal data-reveal-delay="120">
-        <div class="panel p-7 sticky top-28">
+      <!-- Portrait + current role -->
+      <aside class="lg:col-span-5 space-y-6" data-reveal data-reveal-delay="120">
+        <Portrait class="max-w-[420px] lg:ml-auto" />
+
+        <div class="panel p-7">
           <p class="mono-label">Currently</p>
           <h3 class="mt-4 text-xl">{experience[0].title}</h3>
           <p class="mt-1.5 text-sm text-accent">{experience[0].company}</p>
