@@ -1,0 +1,88 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/Section.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+
+const projects = (await getCollection("projects"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Unique discipline tags, for the filter chips
+const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
+---
+
+<BaseLayout
+  active="/projects/"
+  title="Projects | Guruvishnu Nallamadugu"
+  description="Engineering case studies: field instrumentation consolidation, aerospace flight-control hardware, manufacturing cycle-time reduction, and asteroid orbit optimization research."
+>
+  <div class="pt-32">
+    <Section
+      eyebrow="Selected work"
+      title="Engineering projects"
+      lead="Each case study follows the same structure: the problem, the constraints that shaped the design, the approach taken, how it was validated, and what the result actually was."
+    >
+      <!-- Filter -->
+      <div class="mt-12 flex flex-wrap items-center gap-2" data-reveal>
+        <span class="mono-label mr-2">Filter</span>
+        <button type="button" class="tag tag-active" data-filter="all">
+          All ({projects.length})
+        </button>
+        {
+          tags.map((t) => (
+            <button type="button" class="tag" data-filter={t}>
+              {t}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Grid -->
+      <div
+        id="project-grid"
+        class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
+      </div>
+
+      <p
+        id="empty-state"
+        class="hidden mt-16 text-center font-mono text-xs uppercase tracking-[0.16em] text-dim"
+      >
+        No projects match that filter.
+      </p>
+    </Section>
+  </div>
+</BaseLayout>
+
+<script>
+  const buttons =
+    document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+  const grid = document.getElementById("project-grid");
+  const empty = document.getElementById("empty-state");
+
+  if (grid && empty) {
+    const cards = Array.from(
+      grid.querySelectorAll<HTMLElement>("[data-tags]"),
+    );
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const filter = btn.dataset.filter!;
+
+        buttons.forEach((b) => b.classList.toggle("tag-active", b === btn));
+
+        let visible = 0;
+        cards.forEach((card) => {
+          const tags: string[] = JSON.parse(card.dataset.tags ?? "[]");
+          const show = filter === "all" || tags.includes(filter);
+          card.style.display = show ? "" : "none";
+          if (show) visible++;
+        });
+
+        empty.classList.toggle("hidden", visible > 0);
+      });
+    });
+  }
+</script>

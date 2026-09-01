@@ -1,0 +1,39 @@
+---
+import type { SkillLevel } from "@/data/site";
+import { levelLabels } from "@/data/site";
+
+interface Props {
+  name: string;
+  level: SkillLevel;
+}
+
+const { name, level } = Astro.props;
+---
+
+<div class="group/skill flex items-center gap-4 py-2.5 border-b border-line/60 last:border-0">
+  <span class="flex-1 text-sm text-ink">{name}</span>
+
+  <span
+    class="font-mono text-[9px] uppercase tracking-[0.14em] text-dim w-[68px] text-right transition-colors group-hover/skill:text-accent hidden sm:block"
+  >
+    {levelLabels[level]}
+  </span>
+
+  <!-- Three-segment meter -->
+  <span
+    class="flex gap-1 shrink-0"
+    role="img"
+    aria-label={`${name}: ${levelLabels[level]}`}
+  >
+    {
+      [1, 2, 3].map((i) => (
+        <span
+          class:list={[
+            "block w-6 h-[3px] transition-colors duration-300",
+            i <= level ? "bg-accent" : "bg-line-bright",
+          ]}
+        />
+      ))
+    }
+  </span>
+</div>

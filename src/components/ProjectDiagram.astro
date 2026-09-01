@@ -1,0 +1,263 @@
+---
+/**
+ * Generative blueprint-style diagrams, one per project archetype.
+ * These stand in for photography — swap in real CAD renders or photos
+ * by replacing this component's output with an <Image />.
+ */
+interface Props {
+  type: "assembly" | "pulley" | "chamber" | "orbit";
+  class?: string;
+}
+
+const { type, class: className = "" } = Astro.props;
+
+const A = "#ff6b35"; // accent
+const S = "#5c9ead"; // steel
+const L = "#3a424b"; // line
+---
+
+<div class={`relative overflow-hidden ${className}`}>
+  <div class="absolute inset-0 blueprint-grid-fine opacity-40" aria-hidden="true"></div>
+
+  <svg
+    viewBox="0 0 320 220"
+    class="relative w-full h-full"
+    fill="none"
+    aria-hidden="true"
+    role="presentation"
+  >
+    {
+      type === "assembly" && (
+        <g stroke-width="1">
+          {/* Enclosure — the 6-in-1 housing */}
+          <rect x="70" y="46" width="180" height="128" stroke={L} />
+          <rect x="78" y="54" width="164" height="112" stroke={L} opacity="0.5" />
+
+          {/* Six instrument bays */}
+          {[0, 1, 2, 3, 4, 5].map((i) => {
+            const col = i % 3;
+            const row = Math.floor(i / 3);
+            const x = 90 + col * 52;
+            const y = 68 + row * 52;
+            return (
+              <g>
+                <rect x={x} y={y} width="36" height="36" stroke={A} opacity="0.85" />
+                <circle cx={x + 18} cy={y + 18} r="9" stroke={S} opacity="0.7" />
+                <circle cx={x + 18} cy={y + 18} r="2.5" fill={A} stroke="none" />
+                <text
+                  x={x + 2}
+                  y={y - 3}
+                  fill={L}
+                  font-family="monospace"
+                  font-size="6"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* Mounting mast */}
+          <line x1="160" y1="174" x2="160" y2="206" stroke={L} />
+          <path d="M144 206h32" stroke={L} />
+          <path d="M150 206l-6 8M170 206l6 8" stroke={L} opacity="0.6" />
+
+          {/* Dimension line */}
+          <g stroke={A} opacity="0.55">
+            <line x1="70" y1="34" x2="250" y2="34" />
+            <line x1="70" y1="30" x2="70" y2="38" />
+            <line x1="250" y1="30" x2="250" y2="38" />
+          </g>
+          <text
+            x="160"
+            y="28"
+            fill={A}
+            opacity="0.8"
+            font-family="monospace"
+            font-size="7"
+            text-anchor="middle"
+          >
+            CONSOLIDATED ENVELOPE
+          </text>
+        </g>
+      )
+    }
+
+    {
+      type === "pulley" && (
+        <g stroke-width="1">
+          {/* Section view of a grooved sheave */}
+          <g transform="translate(160 110)">
+            <circle r="70" stroke={L} opacity="0.35" />
+            <circle r="58" stroke={A} />
+            <circle r="50" stroke={A} opacity="0.55" />
+            <circle r="22" stroke={S} opacity="0.8" />
+            <circle r="11" stroke={S} opacity="0.5" />
+
+            {/* Bolt circle */}
+            {[0, 1, 2, 3, 4, 5].map((i) => {
+              const ang = (i / 6) * Math.PI * 2;
+              return (
+                <circle
+                  cx={Math.cos(ang) * 36}
+                  cy={Math.sin(ang) * 36}
+                  r="4"
+                  stroke={A}
+                  opacity="0.75"
+                />
+              );
+            })}
+
+            {/* Centre lines */}
+            <g stroke={L} stroke-dasharray="8 3 2 3" opacity="0.75">
+              <line x1="-84" y1="0" x2="84" y2="0" />
+              <line x1="0" y1="-84" x2="0" y2="84" />
+            </g>
+          </g>
+
+          {/* Guide brackets */}
+          <rect x="34" y="90" width="16" height="40" stroke={L} />
+          <rect x="270" y="90" width="16" height="40" stroke={L} />
+          <line x1="50" y1="110" x2="102" y2="110" stroke={S} opacity="0.55" stroke-dasharray="3 3" />
+          <line x1="218" y1="110" x2="270" y2="110" stroke={S} opacity="0.55" stroke-dasharray="3 3" />
+
+          {/* GD&T feature control frame */}
+          <g transform="translate(196 176)">
+            <rect width="76" height="15" stroke={A} opacity="0.8" />
+            <line x1="18" y1="0" x2="18" y2="15" stroke={A} opacity="0.8" />
+            <line x1="50" y1="0" x2="50" y2="15" stroke={A} opacity="0.8" />
+            <circle cx="9" cy="7.5" r="4.5" stroke={A} opacity="0.9" />
+            <text x="26" y="11" fill={A} opacity="0.9" font-family="monospace" font-size="7">
+              0.05
+            </text>
+            <text x="58" y="11" fill={A} opacity="0.9" font-family="monospace" font-size="7">
+              A
+            </text>
+          </g>
+        </g>
+      )
+    }
+
+    {
+      type === "chamber" && (
+        <g stroke-width="1">
+          {/* Isometric cold-storage chamber */}
+          <g transform="translate(56 28)">
+            <path d="M0 44 L96 0 L208 40 L112 88 Z" stroke={L} opacity="0.55" />
+            <path d="M0 44 L0 132 L112 176 L112 88 Z" stroke={A} />
+            <path d="M112 88 L208 40 L208 128 L112 176 Z" stroke={A} opacity="0.6" />
+
+            {/* Internal shelving */}
+            {[0, 1, 2].map((i) => (
+              <g opacity="0.45">
+                <path
+                  d={`M8 ${72 + i * 26} L108 ${112 + i * 26}`}
+                  stroke={S}
+                />
+                <path
+                  d={`M108 ${112 + i * 26} L200 ${66 + i * 26}`}
+                  stroke={S}
+                  opacity="0.6"
+                />
+              </g>
+            ))}
+
+            {/* HVAC unit */}
+            <rect x="128" y="14" width="46" height="24" stroke={S} opacity="0.9" />
+            {[0, 1, 2].map((i) => (
+              <line
+                x1={136 + i * 12}
+                y1="18"
+                x2={136 + i * 12}
+                y2="34"
+                stroke={S}
+                opacity="0.6"
+              />
+            ))}
+            {/* Airflow */}
+            <path
+              d="M151 40 v18 M146 52 l5 6 5-6"
+              stroke={A}
+              opacity="0.8"
+            />
+          </g>
+
+          {/* Cycle-time bar: before vs after */}
+          <g transform="translate(20 196)">
+            <text fill={L} font-family="monospace" font-size="6" y="-4">
+              CYCLE TIME
+            </text>
+            <rect width="200" height="6" stroke={L} opacity="0.6" />
+            <rect width="150" height="6" fill={A} opacity="0.75" stroke="none" />
+            <text x="208" y="6" fill={A} font-family="monospace" font-size="7">
+              -25%
+            </text>
+          </g>
+        </g>
+      )
+    }
+
+    {
+      type === "orbit" && (
+        <g stroke-width="1">
+          <g transform="translate(160 108)">
+            {/* Sun */}
+            <circle r="5" fill={A} stroke="none" opacity="0.9" />
+            <circle r="13" stroke={A} opacity="0.25" />
+
+            {/* Earth orbit */}
+            <circle r="42" stroke={S} opacity="0.55" />
+            {/* Mars orbit */}
+            <circle r="64" stroke={L} opacity="0.55" />
+
+            {/* Original asteroid orbit — eccentric */}
+            <ellipse
+              rx="92"
+              ry="66"
+              cx="-24"
+              stroke={L}
+              stroke-dasharray="5 4"
+              opacity="0.85"
+            />
+
+            {/* Transfer orbit */}
+            <ellipse rx="66" ry="52" cx="-14" stroke={A} />
+
+            {/* Burn marker */}
+            <g transform="translate(52 0)" stroke={A}>
+              <circle r="6" />
+              <line x1="-11" y1="0" x2="-4" y2="0" />
+              <line x1="4" y1="0" x2="11" y2="0" />
+              <line x1="0" y1="-11" x2="0" y2="-4" />
+              <line x1="0" y1="4" x2="0" y2="11" />
+            </g>
+
+            {/* Bodies */}
+            <circle cx="-42" cy="0" r="3" fill={S} stroke="none" />
+            <circle cx="30" cy="-46" r="2.5" fill="#e8eaed" stroke="none" />
+          </g>
+
+          <text
+            x="234"
+            y="112"
+            fill={A}
+            opacity="0.85"
+            font-family="monospace"
+            font-size="7"
+          >
+            ΔV
+          </text>
+          <text
+            x="20"
+            y="200"
+            fill={L}
+            font-family="monospace"
+            font-size="6.5"
+          >
+            JPL SBDB EPHEMERIS · KEPLERIAN PROPAGATION
+          </text>
+        </g>
+      )
+    }
+  </svg>
+</div>

@@ -1,0 +1,62 @@
+---
+title: "6-in-1 Field Instrumentation Assembly"
+subtitle: "Consolidating six measurement devices into one deployable system"
+order: 1
+summary: "Redesigned distributed research instrumentation into a single compact assembly — reducing footprint, simplifying field installation, and validated against reference equipment to confirm the housing does not perturb sensor readings."
+organization: "Mississippi State University"
+period: "2026 — Present"
+tags: ["Mechanical Design", "DFM/DFA", "Prototyping", "Field Validation"]
+stack: ["3D CAD", "3D Printing", "DFM/DFA", "Tolerance Analysis", "Field Testing"]
+metric:
+  value: "6→1"
+  label: "Instruments consolidated"
+diagram: "assembly"
+featured: true
+---
+
+## The problem
+
+Environmental and soil research in the field depends on several separate instruments — each with its own housing, mount, cabling and installation procedure. Deployed individually, they consume bench and field space, multiply the number of installation steps, and make it harder to guarantee that every instrument is sampling the same location under the same conditions.
+
+The brief was to reduce that overhead: take the existing distributed equipment and produce something a researcher could carry to a site and install without a half-day of setup.
+
+## Constraints
+
+- **Sensor integrity is non-negotiable.** Consolidation is worthless if packing instruments together changes what they measure. The mechanical design had to be proven neutral with respect to sensor accuracy.
+- **Field-installable.** Assembly and installation had to be possible outside a lab, with hand tools, by researchers rather than technicians.
+- **Footprint.** The whole point was reduced space utilisation, so envelope was a hard design driver rather than a nice-to-have.
+- **Serviceability.** Six instruments in one enclosure means any one of them may need access for calibration or replacement.
+
+## Approach
+
+I started from the researchers' functional requirements rather than from the existing hardware — what has to be measured, where, and how often — and worked back to an envelope that could hold all six devices in a defensible arrangement.
+
+The design work ran in 3D CAD with **DFM and DFA applied as active constraints**, not as a review step at the end. That meant deciding early on:
+
+- **Material selection** appropriate to outdoor field exposure
+- **Fastening methods** chosen for assembly with hand tools and for repeat disassembly during servicing
+- **Accessibility** — every instrument reachable without dismantling the others
+- **Tolerances** set against how the parts would actually be produced, so that fit was predictable rather than hopeful
+
+## Prototyping
+
+Each design iteration was **3D printed and physically checked** rather than judged on screen. Printed prototypes were used to evaluate fit, form, component integration and function — where instruments interfered, where a fastener could not be reached, where a wall was too thin or a cable route too tight.
+
+Those findings fed directly back into the CAD model. The cycle — model, print, check, revise — ran until the assembly satisfied both the dimensional constraints and the researchers' handling feedback.
+
+## Validation
+
+The design was validated in the field alongside the research teams. Measurements from the prototype integrated instrument were **compared directly against reference equipment** under the same conditions.
+
+This was the test that mattered: it confirmed measurement consistency and, critically, that the mechanical design did not interfere with sensor accuracy or performance. A consolidated package that quietly biased its own readings would have been a failure regardless of how well it packed.
+
+## Outcome
+
+- Six separate instruments integrated into a **single deployable assembly**
+- **Reduced overall footprint** and improved space utilisation
+- **Simplified field installation** relative to deploying instruments individually
+- Measurement consistency **verified against reference equipment**
+
+## What I'd carry forward
+
+The most valuable decision was refusing to treat validation as a formality. Consolidating instruments creates exactly the conditions where thermal, mechanical and electromagnetic cross-talk appear, and the only honest way to close that out is a side-by-side comparison against known-good equipment in real field conditions.

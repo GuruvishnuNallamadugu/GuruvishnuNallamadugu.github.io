@@ -1,0 +1,37 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { navigation } from "@/data/site";
+---
+
+<BaseLayout title="404 — Not found | Guruvishnu Nallamadugu" active="/">
+  <section
+    class="relative min-h-[80svh] flex items-center overflow-hidden pt-32 pb-20"
+  >
+    <div
+      class="absolute inset-0 blueprint-grid grid-fade opacity-60"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative mx-auto max-w-7xl w-full px-6 lg:px-10">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="mt-6 text-[clamp(3rem,12vw,8rem)] leading-none">
+        Out of<br /><span class="text-accent">tolerance.</span>
+      </h1>
+      <p class="mt-8 max-w-md text-base text-muted leading-relaxed">
+        That page isn't in the assembly. It may have been moved, renamed, or
+        never existed in this revision.
+      </p>
+
+      <nav class="mt-10 flex flex-wrap gap-2" aria-label="Site sections">
+        {
+          navigation.map((item) => (
+            <a href={item.href} class="tag !py-2 !px-3.5">
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

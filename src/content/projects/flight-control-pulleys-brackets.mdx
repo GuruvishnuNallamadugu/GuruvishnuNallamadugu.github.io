@@ -1,0 +1,63 @@
+---
+title: "Flight Control Pulleys & Guide Brackets"
+subtitle: "Aerospace hardware designed for automated production cells"
+order: 2
+summary: "Designed flight control cable pulleys and mechanical guide brackets in Siemens NX and SolidWorks, optimising the designs for automated production cells for an 8% cycle-time improvement and eliminating assembly defects through GD&T tolerance stack-up analysis."
+organization: "Tata Sikorsky"
+period: "Dec 2021 — Dec 2022"
+tags: ["Mechanical Design", "GD&T", "Aerospace", "Tooling"]
+stack: ["Siemens NX", "SolidWorks", "GD&T", "Tolerance Stack-Up", "DFMEA", "DFSS"]
+metric:
+  value: "8%"
+  label: "Cycle time improvement"
+diagram: "pulley"
+featured: true
+---
+
+## Context
+
+Flight control cable pulleys and their guide brackets sit in a load path where the consequences of a bad fit are not cosmetic. They also have to be produced repeatably, at rate, on manufacturing lines that were increasingly automated.
+
+My work covered both halves of that: the part design itself, and the design decisions that determine whether a part can be produced efficiently.
+
+## Design
+
+Pulleys and mechanical guide brackets were modelled in **Siemens NX and SolidWorks**, developed against aerospace manufacturing and assembly requirements rather than in isolation.
+
+The design intent had to survive contact with the production floor, which meant working closely with manufacturing and supplier teams throughout — not handing a model over at the end and waiting for the objections.
+
+## Tolerance stack-up analysis
+
+Most assembly defects are tolerance problems that nobody caught on the drawing.
+
+I performed **GD&T tolerance stack-up analysis** across the assemblies to confirm that parts produced anywhere within their stated tolerance envelope would still assemble and function. This served two purposes:
+
+1. **Manufacturability** — confirming the tolerances specified were ones the process could actually hold, rather than tight numbers written defensively
+2. **Defect elimination** — identifying stack conditions that would have produced interference or excessive play at the extremes of the tolerance range
+
+Catching these on paper is orders of magnitude cheaper than catching them in first-article inspection, and cheaper still than catching them in the field.
+
+## Optimising for automated production
+
+The **8% manufacturing cycle-time improvement** came from optimising the designs specifically for automated production cells.
+
+Designing for an automated cell is a different problem to designing for a bench. Part geometry has to support consistent presentation, gripping and orientation; features have to be reachable by the tooling; and the design has to avoid the conditions that cause a cell to stop, because an automated line's throughput is dominated by its interruptions rather than its nominal rate.
+
+## Tooling and fixtures
+
+I designed and evaluated **tooling and fixtures** to improve assembly efficiency and support production readiness. Fixtures are where design intent becomes repeatable: a good fixture makes the correct assembly the easy one and the incorrect assembly awkward or impossible.
+
+## Risk methods
+
+Working with manufacturing and supplier teams, I applied **DFMEA and DFSS methods** to improve product quality and reduce design and production risk. Used properly, DFMEA is a structured way of asking "how does this fail, how would we know, and what does it cost us" early enough that the answers can still change the design.
+
+## Outcome
+
+- **8% improvement** in manufacturing cycle time through design optimisation for automated cells
+- **Assembly defects eliminated** through GD&T tolerance stack-up analysis
+- Tooling and fixtures delivered to support **production readiness**
+- Design and production risk reduced via **DFMEA / DFSS** with manufacturing and supplier teams
+
+## What I'd carry forward
+
+The cycle-time gain did not come from making the part faster to machine in isolation — it came from designing it around the constraints of the cell that would produce it. Manufacturing efficiency is a design input, and it has to be present from the first sketch to be worth anything.

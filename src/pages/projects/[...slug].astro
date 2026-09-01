@@ -1,0 +1,185 @@
+---
+import { getCollection, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectDiagram from "@/components/ProjectDiagram.astro";
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection("projects");
+  const sorted = projects
+    .filter((p) => !p.data.draft)
+    .sort((a, b) => a.data.order - b.data.order);
+
+  return sorted.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      prev: sorted[i - 1] ?? null,
+      next: sorted[i + 1] ?? null,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project, prev, next } = Astro.props;
+const d = project.data;
+const { Content, headings } = await render(project);
+---
+
+<BaseLayout
+  active="/projects/"
+  title={`${d.title} | Guruvishnu Nallamadugu`}
+  description={d.summary}
+>
+  <!-- ==================== HEADER ==================== -->
+  <header class="relative pt-32 pb-16 border-b border-line overflow-hidden">
+    <div
+      class="absolute inset-0 blueprint-grid grid-fade opacity-50"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em]">
+        <a href="/projects/" class="text-dim hover:text-accent transition-colors">
+          Projects
+        </a>
+        <span class="text-dim">/</span>
+        <span class="text-accent">{String(d.order).padStart(2, "0")}</span>
+      </nav>
+
+      <div class="mt-8 grid lg:grid-cols-12 gap-10 items-end">
+        <div class="lg:col-span-7">
+          <h1 class="text-[clamp(2rem,5vw,3.75rem)] leading-[1.02]">
+            {d.title}
+          </h1>
+          <p class="mt-5 text-lg text-accent font-display">{d.subtitle}</p>
+          <p class="mt-5 max-w-2xl text-base text-muted leading-relaxed">
+            {d.summary}
+          </p>
+        </div>
+
+        <!-- Spec block -->
+        <div class="lg:col-span-5">
+          <dl class="grid grid-cols-2 gap-px bg-line border border-line">
+            {
+              [
+                ["Organisation", d.organization],
+                ["Period", d.period],
+                [d.metric.label, d.metric.value],
+                ["Discipline", d.tags[0]],
+              ].map(([k, v], i) => (
+                <div class="bg-surface p-4">
+                  <dt class="mono-label !text-[9px]">{k}</dt>
+                  <dd
+                    class:list={[
+                      "mt-2 text-sm leading-snug",
+                      i === 2 ? "text-accent font-display text-lg" : "text-ink",
+                    ]}
+                  >
+                    {v}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== DIAGRAM ==================== -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-10 -mt-px">
+    <div
+      class="border-x border-b border-line bg-void/40 aspect-[21/9] relative overflow-hidden"
+      data-reveal
+    >
+      <ProjectDiagram type={d.diagram} class="absolute inset-0 p-8 sm:p-12" />
+      <p
+        class="absolute left-5 bottom-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dim"
+      >
+        Schematic representation — not to scale
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================== BODY ==================== -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16 lg:py-20">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <!-- Sidebar -->
+      <aside class="lg:col-span-3 order-last lg:order-first">
+        <div class="sticky top-28 space-y-8">
+          <!-- Contents -->
+          {
+            headings.length > 0 && (
+              <nav aria-label="Table of contents">
+                <p class="mono-label mb-3">Contents</p>
+                <ul class="space-y-2 border-l border-line">
+                  {headings
+                    .filter((h) => h.depth === 2)
+                    .map((h) => (
+                      <li>
+                        <a
+                          href={`#${h.slug}`}
+                          class="block pl-4 -ml-px border-l border-transparent text-xs text-dim hover:text-accent hover:border-accent transition-colors py-0.5"
+                        >
+                          {h.text}
+                        </a>
+                      </li>
+                    ))}
+                </ul>
+              </nav>
+            )
+          }
+
+          <!-- Stack -->
+          <div>
+            <p class="mono-label mb-3">Tools & methods</p>
+            <ul class="flex flex-wrap gap-1.5">
+              {d.stack.map((s: string) => <li class="tag">{s}</li>)}
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Prose -->
+      <article class="lg:col-span-8 lg:col-start-5 prose-tech" data-reveal>
+        <Content />
+      </article>
+    </div>
+  </div>
+
+  <!-- ==================== PREV / NEXT ==================== -->
+  <nav
+    class="border-t border-line"
+    aria-label="Project navigation"
+  >
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="grid sm:grid-cols-2 gap-px bg-line">
+        <a
+          href={prev ? `/projects/${prev.id}/` : "/projects/"}
+          class="group bg-base hover:bg-surface transition-colors p-8 sm:p-10"
+        >
+          <span class="mono-label group-hover:!text-accent transition-colors">
+            ← {prev ? "Previous" : "All projects"}
+          </span>
+          <p class="mt-3 text-lg text-ink group-hover:text-accent transition-colors">
+            {prev ? prev.data.title : "Back to index"}
+          </p>
+        </a>
+
+        <a
+          href={next ? `/projects/${next.id}/` : "/contact/"}
+          class="group bg-base hover:bg-surface transition-colors p-8 sm:p-10 sm:text-right"
+        >
+          <span class="mono-label group-hover:!text-accent transition-colors">
+            {next ? "Next" : "Get in touch"} →
+          </span>
+          <p class="mt-3 text-lg text-ink group-hover:text-accent transition-colors">
+            {next ? next.data.title : "Contact"}
+          </p>
+        </a>
+      </div>
+    </div>
+  </nav>
+</BaseLayout>

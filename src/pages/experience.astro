@@ -1,0 +1,154 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/Section.astro";
+import { experience, education, profile } from "@/data/site";
+---
+
+<BaseLayout
+  active="/experience/"
+  title="Education & Experience | Guruvishnu Nallamadugu"
+  description="Design Engineer at Mississippi State University. Previously CAD Designer at Tata Sikorsky and Manufacturing Engineer at Bharat Electronics. M.S. Aerospace Engineering."
+>
+  <div class="pt-32">
+    <!-- ==================== EXPERIENCE ==================== -->
+    <Section
+      eyebrow="Background"
+      title="Education & experience"
+      lead="Three and a half years across aerospace hardware, manufacturing engineering and research equipment design — plus four semesters teaching Mechanics of Materials."
+    >
+      <div class="mt-16 grid lg:grid-cols-12 gap-10">
+        <!-- Sticky label -->
+        <div class="lg:col-span-3">
+          <div class="sticky top-28">
+            <p class="mono-label">Section 01</p>
+            <h2 class="mt-3 text-2xl">Experience</h2>
+            <a
+              href={profile.resumePath}
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost mt-6 !text-[10px]"
+            >
+              Résumé PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="lg:col-span-9">
+          <ol class="relative border-l border-line ml-1.5">
+            {
+              experience.map((role, i) => (
+                <li
+                  class="relative pl-8 sm:pl-12 pb-14 last:pb-0"
+                  data-reveal
+                  data-reveal-delay={i * 80}
+                >
+                  {/* Node */}
+                  <span
+                    class:list={[
+                      "absolute -left-[5px] top-1.5 block w-2.5 h-2.5 border",
+                      role.current
+                        ? "bg-accent border-accent"
+                        : "bg-base border-line-bright",
+                    ]}
+                    aria-hidden="true"
+                  />
+
+                  {/* Header */}
+                  <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+                      {role.start} — {role.end}
+                    </span>
+                    {role.current && (
+                      <span class="font-mono text-[9px] uppercase tracking-[0.16em] text-signal border border-signal/40 px-1.5 py-0.5">
+                        Current
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 class="mt-3 text-2xl">{role.title}</h3>
+                  <p class="mt-1.5 text-base text-ink">
+                    {role.company}
+                    <span class="text-dim"> · {role.location}</span>
+                  </p>
+
+                  <p class="mt-4 text-sm text-muted leading-relaxed max-w-2xl">
+                    {role.summary}
+                  </p>
+
+                  {/* Bullets */}
+                  <ul class="mt-6 space-y-3 max-w-2xl">
+                    {role.bullets.map((b) => (
+                      <li class="relative pl-6 text-sm text-muted leading-relaxed">
+                        <span
+                          class="absolute left-0 top-[0.6rem] block w-2.5 h-px bg-accent"
+                          aria-hidden="true"
+                        />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Stack */}
+                  <ul class="mt-6 flex flex-wrap gap-1.5">
+                    {role.stack.map((s) => (
+                      <li class="tag">{s}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </Section>
+
+    <!-- ==================== EDUCATION ==================== -->
+    <Section class="!pt-4">
+      <div class="grid lg:grid-cols-12 gap-10">
+        <div class="lg:col-span-3">
+          <div class="sticky top-28">
+            <p class="mono-label">Section 02</p>
+            <h2 class="mt-3 text-2xl">Education</h2>
+          </div>
+        </div>
+
+        <div class="lg:col-span-9 grid sm:grid-cols-2 gap-6">
+          {
+            education.map((ed, i) => (
+              <div
+                class="panel corner-ticks p-7"
+                data-reveal
+                data-reveal-delay={i * 90}
+              >
+                <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+                  {ed.end}
+                </p>
+                <h3 class="mt-4 text-xl leading-snug">
+                  {ed.degree}
+                  <span class="block text-accent mt-1">{ed.field}</span>
+                </h3>
+                <p class="mt-4 text-sm text-ink">{ed.school}</p>
+                <p class="mt-1 text-xs text-dim">{ed.location}</p>
+
+                {ed.detail && (
+                  <ul class="mt-5 pt-5 border-t border-line space-y-2.5">
+                    {ed.detail.map((det) => (
+                      <li class="relative pl-5 text-xs text-muted leading-relaxed">
+                        <span
+                          class="absolute left-0 top-[0.5rem] block w-2 h-px bg-accent"
+                          aria-hidden="true"
+                        />
+                        {det}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

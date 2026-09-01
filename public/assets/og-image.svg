@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0v60" fill="none" stroke="#262b31" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="fade" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask">
+      <rect width="1200" height="630" fill="url(#fade)"/>
+    </mask>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0f1113"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+
+  <!-- Wireframe pulley, right side -->
+  <g transform="translate(930 315)" fill="none" stroke-width="1.6">
+    <circle r="170" stroke="#262b31"/>
+    <circle r="142" stroke="#363d45"/>
+    <ellipse rx="118" ry="46" stroke="#ff6b35"/>
+    <ellipse rx="118" ry="34" stroke="#ff6b35" stroke-opacity="0.55"/>
+    <ellipse rx="46" ry="18" stroke="#5c9ead"/>
+    <ellipse rx="22" ry="9" stroke="#5c9ead" stroke-opacity="0.6"/>
+    <g stroke="#ff6b35" stroke-opacity="0.7">
+      <circle cx="74" cy="29" r="6"/>
+      <circle cx="-74" cy="29" r="6"/>
+      <circle cx="74" cy="-29" r="6"/>
+      <circle cx="-74" cy="-29" r="6"/>
+      <circle cx="0" cy="38" r="6"/>
+      <circle cx="0" cy="-38" r="6"/>
+    </g>
+    <g stroke="#262b31" stroke-dasharray="14 5 3 5">
+      <line x1="-195" y1="0" x2="195" y2="0"/>
+      <line x1="0" y1="-195" x2="0" y2="195"/>
+    </g>
+  </g>
+
+  <!-- Accent rule -->
+  <rect x="80" y="180" width="56" height="2" fill="#ff6b35"/>
+
+  <!-- Text -->
+  <text x="80" y="172" fill="#ff6b35" font-family="monospace" font-size="19" letter-spacing="4.5">
+    STARKVILLE, MISSISSIPPI
+  </text>
+
+  <text x="80" y="286" fill="#e8eaed" font-family="'Space Grotesk',sans-serif" font-size="76" font-weight="600" letter-spacing="-2">
+    Guruvishnu
+  </text>
+  <text x="80" y="366" fill="#ff6b35" font-family="'Space Grotesk',sans-serif" font-size="76" font-weight="600" letter-spacing="-2">
+    Nallamadugu
+  </text>
+
+  <text x="80" y="430" fill="#e8eaed" font-family="'Space Grotesk',sans-serif" font-size="27" font-weight="500">
+    Mechanical Design &amp; Manufacturing Engineer
+  </text>
+
+  <text x="80" y="470" fill="#6b747e" font-family="monospace" font-size="16" letter-spacing="3">
+    AEROSPACE · CAD &amp; GD&amp;T · PROTOTYPING · PROCESS IMPROVEMENT
+  </text>
+
+  <!-- Corner registration marks -->
+  <g stroke="#363d45" stroke-width="2" fill="none">
+    <path d="M40 70v-30h30"/>
+    <path d="M1160 70v-30h-30"/>
+    <path d="M40 560v30h30"/>
+    <path d="M1160 560v30h-30"/>
+  </g>
+</svg>

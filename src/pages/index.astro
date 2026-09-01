@@ -1,0 +1,331 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/Section.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import WireframeAssembly from "@/components/WireframeAssembly";
+import {
+  profile,
+  metrics,
+  aboutParagraphs,
+  skillTicker,
+  experience,
+} from "@/data/site";
+
+const projects = (await getCollection("projects"))
+  .filter((p) => !p.data.draft && p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const ticker = [...skillTicker, ...skillTicker];
+---
+
+<BaseLayout active="/">
+  <!-- ==================== HERO ==================== -->
+  <section class="relative min-h-[100svh] flex items-center overflow-hidden grain">
+    <div
+      class="absolute inset-0 blueprint-grid grid-fade opacity-70"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative mx-auto max-w-7xl w-full px-6 lg:px-10 pt-28 pb-20">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <!-- Text -->
+        <div class="lg:col-span-7">
+          <p class="eyebrow" data-reveal>
+            {profile.location}
+          </p>
+
+          <h1
+            class="mt-6 text-[clamp(2.6rem,7vw,5.25rem)] leading-[0.95]"
+            data-reveal
+            data-reveal-delay="80"
+          >
+            Guruvishnu<br />
+            <span class="text-accent">Nallamadugu</span>
+          </h1>
+
+          <p
+            class="mt-7 text-lg sm:text-xl text-ink font-display font-medium"
+            data-reveal
+            data-reveal-delay="160"
+          >
+            {profile.role}
+          </p>
+
+          <p
+            class="mt-3 font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] text-dim"
+            data-reveal
+            data-reveal-delay="200"
+          >
+            {profile.tagline}
+          </p>
+
+          <p
+            class="mt-8 max-w-xl text-base text-muted leading-relaxed"
+            data-reveal
+            data-reveal-delay="240"
+          >
+            I design equipment that has to work outside the lab — from aerospace
+            flight-control hardware to field research instrumentation. CAD,
+            GD&amp;T and DFM up front; prototypes, testing and process data to
+            prove it.
+          </p>
+
+          <div
+            class="mt-10 flex flex-wrap gap-3"
+            data-reveal
+            data-reveal-delay="300"
+          >
+            <a href="/projects/" class="btn btn-primary">
+              View projects
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path
+                  d="M3 11L11 3M11 3H5M11 3v6"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <a
+              href={profile.resumePath}
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost"
+            >
+              Download résumé
+            </a>
+          </div>
+
+          <!-- Availability pill -->
+          <div
+            class="mt-10 inline-flex items-center gap-2.5"
+            data-reveal
+            data-reveal-delay="360"
+          >
+            <span class="relative flex w-2 h-2">
+              <span
+                class="absolute inline-flex w-full h-full bg-signal opacity-60 animate-ping"
+              ></span>
+              <span class="relative inline-flex w-2 h-2 bg-signal"></span>
+            </span>
+            <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+              {profile.availability}
+            </span>
+          </div>
+        </div>
+
+        <!-- 3D assembly. Natural DOM order keeps the name first on mobile;
+             on lg it sits in the right-hand column beside the text. -->
+        <div class="lg:col-span-5">
+          <div
+            class="relative aspect-square w-full max-w-[280px] sm:max-w-[360px] lg:max-w-[440px] mx-auto"
+          >
+            <!--
+              Hydrated only at >=1024px: phones keep the server-rendered SVG
+              and never download the ~230 kB (gzip) WebGL bundle.
+            -->
+            <WireframeAssembly client:media="(min-width: 1024px)" />
+            <!-- Corner registration marks -->
+            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+              {
+                [
+                  "top-0 left-0 border-t border-l",
+                  "top-0 right-0 border-t border-r",
+                  "bottom-0 left-0 border-b border-l",
+                  "bottom-0 right-0 border-b border-r",
+                ].map((pos) => (
+                  <span class={`absolute w-5 h-5 border-line-bright ${pos}`} />
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div
+      class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
+      aria-hidden="true"
+    >
+      <span class="font-mono text-[9px] uppercase tracking-[0.2em] text-dim">
+        Scroll
+      </span>
+      <span class="block w-px h-10 bg-gradient-to-b from-line-bright to-transparent"
+      ></span>
+    </div>
+  </section>
+
+  <!-- ==================== METRICS ==================== -->
+  <section class="relative border-y border-line bg-surface/50">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <dl class="grid grid-cols-2 lg:grid-cols-4">
+        {
+          metrics.map((m, i) => (
+            <div
+              class="py-10 lg:py-12 px-2 lg:px-8 border-line [&:nth-child(odd)]:border-r lg:[&:nth-child(odd)]:border-r lg:border-r lg:last:border-r-0 [&:nth-child(-n+2)]:border-b lg:[&:nth-child(-n+2)]:border-b-0"
+              data-reveal
+              data-reveal-delay={i * 80}
+            >
+              <dt class="font-display text-4xl lg:text-5xl font-semibold text-accent tabular-nums leading-none">
+                {m.value}
+              </dt>
+              <dd class="mt-4">
+                <span class="block text-sm text-ink font-medium">{m.label}</span>
+                <span class="block mt-1 text-xs text-dim leading-relaxed">
+                  {m.detail}
+                </span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <Section eyebrow="About" title="Design that survives the shop floor.">
+    <div class="mt-14 grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-7 space-y-5" data-reveal>
+        {
+          aboutParagraphs.map((p) => (
+            <p class="text-base text-muted leading-relaxed">{p}</p>
+          ))
+        }
+      </div>
+
+      <!-- Current role card -->
+      <aside class="lg:col-span-5" data-reveal data-reveal-delay="120">
+        <div class="panel p-7 sticky top-28">
+          <p class="mono-label">Currently</p>
+          <h3 class="mt-4 text-xl">{experience[0].title}</h3>
+          <p class="mt-1.5 text-sm text-accent">{experience[0].company}</p>
+          <p class="mt-4 text-sm text-muted leading-relaxed">
+            {experience[0].summary}
+          </p>
+
+          <div class="mt-6 pt-5 border-t border-line space-y-3">
+            {
+              [
+                ["Degree", "M.S. Aerospace Engineering"],
+                ["Institution", "Mississippi State University"],
+                ["Experience", "3+ years"],
+              ].map(([k, v]) => (
+                <div class="flex justify-between gap-4">
+                  <span class="mono-label">{k}</span>
+                  <span class="text-xs text-ink text-right">{v}</span>
+                </div>
+              ))
+            }
+          </div>
+
+          <a href="/experience/" class="btn btn-ghost w-full mt-7">
+            Full background
+          </a>
+        </div>
+      </aside>
+    </div>
+  </Section>
+
+  <!-- ==================== SKILLS TICKER ==================== -->
+  <div
+    class="border-y border-line py-5 marquee-mask overflow-hidden bg-surface/30"
+    aria-hidden="true"
+  >
+    <div class="marquee-track">
+      {
+        ticker.map((s) => (
+          <span class="flex items-center gap-8 px-4 shrink-0">
+            <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-dim whitespace-nowrap">
+              {s}
+            </span>
+            <span class="w-1 h-1 bg-accent/50 shrink-0" />
+          </span>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- ==================== FEATURED PROJECTS ==================== -->
+  <Section
+    eyebrow="Selected work"
+    title="Projects"
+    lead="Four case studies spanning aerospace hardware, research instrumentation, manufacturing process improvement, and orbital-mechanics research."
+  >
+    <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
+    </div>
+
+    <div class="mt-12 flex justify-center" data-reveal>
+      <a href="/projects/" class="btn btn-ghost">All projects</a>
+    </div>
+  </Section>
+
+  <!-- ==================== RESEARCH TEASER ==================== -->
+  <Section class="!pt-0">
+    <div class="panel corner-ticks overflow-hidden" data-reveal>
+      <div class="grid lg:grid-cols-2">
+        <div class="p-8 sm:p-12 flex flex-col justify-center">
+          <p class="eyebrow">Research</p>
+          <h2 class="mt-5 text-3xl sm:text-4xl">
+            Asteroid orbit<br />optimization
+          </h2>
+          <p class="mt-5 text-base text-muted leading-relaxed max-w-md">
+            A Python framework propagating real JPL ephemeris data to find the
+            minimum ΔV — and the intervention window — required to redirect a
+            near-Earth asteroid into a stable Earth, Moon or Mars vicinity orbit.
+          </p>
+          <p class="mt-4 text-sm text-dim leading-relaxed max-w-md">
+            The research page runs an interactive browser implementation of the
+            same Keplerian propagation. Adjust the burn and watch the transfer
+            orbit solve in real time.
+          </p>
+          <div class="mt-8">
+            <a href="/research/" class="btn btn-primary">
+              Open the simulator
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="relative border-t lg:border-t-0 lg:border-l border-line bg-void/40 min-h-[300px]"
+        >
+          <div class="absolute inset-0 blueprint-grid-fine opacity-40"></div>
+          <svg
+            viewBox="0 0 400 320"
+            class="relative w-full h-full"
+            fill="none"
+            aria-hidden="true"
+          >
+            <g transform="translate(200 160)">
+              <circle r="6" fill="#ff6b35" />
+              <circle r="16" stroke="#ff6b35" opacity="0.25" />
+              <circle r="58" stroke="#5c9ead" opacity="0.5" />
+              <circle r="88" stroke="#3a424b" opacity="0.5" />
+              <ellipse
+                rx="130"
+                ry="94"
+                cx="-34"
+                stroke="#3a424b"
+                stroke-dasharray="5 4"
+              ></ellipse>
+              <ellipse rx="96" ry="74" cx="-20" stroke="#ff6b35"></ellipse>
+              <g transform="translate(76 0)" stroke="#ff6b35">
+                <circle r="7"></circle>
+                <line x1="-13" x2="-5"></line>
+                <line x1="5" x2="13"></line>
+                <line y1="-13" y2="-5"></line>
+                <line y1="5" y2="13"></line>
+              </g>
+              <circle cx="-58" cy="0" r="4" fill="#5c9ead"></circle>
+              <circle cx="42" cy="-64" r="3" fill="#e8eaed"></circle>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

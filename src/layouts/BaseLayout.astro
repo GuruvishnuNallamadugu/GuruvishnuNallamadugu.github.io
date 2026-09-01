@@ -1,0 +1,166 @@
+---
+import "@/styles/global.css";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import { profile, seo } from "@/data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Nav highlight key, e.g. "/projects/" */
+  active?: string;
+}
+
+const {
+  title = seo.title,
+  description = seo.description,
+  active = "/",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/assets/og-image.svg", Astro.site);
+
+/** JSON-LD so search engines and LinkedIn understand who this is. */
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  email: `mailto:${profile.email}`,
+  url: Astro.site?.toString(),
+  sameAs: [profile.linkedin, profile.github],
+  alumniOf: [
+    { "@type": "CollegeOrUniversity", name: "Mississippi State University" },
+    { "@type": "CollegeOrUniversity", name: "Chandigarh University" },
+  ],
+  knowsAbout: [
+    "Mechanical Design",
+    "Manufacturing Engineering",
+    "GD&T",
+    "Design for Manufacturing",
+    "CAD",
+    "Rapid Prototyping",
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={seo.keywords.join(", ")} />
+    <meta name="author" content={profile.name} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={profile.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#0f1113" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
+  </head>
+
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-accent focus:text-void focus:px-4 focus:py-2 focus:font-mono focus:text-xs"
+    >
+      Skip to content
+    </a>
+
+    <Nav active={active} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script>
+      // ---- Scroll reveal ------------------------------------------------
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      const revealTargets =
+        document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+      if (prefersReduced) {
+        revealTargets.forEach((el) => el.classList.add("is-visible"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target as HTMLElement;
+              const delay = Number(el.dataset.revealDelay ?? 0);
+              window.setTimeout(() => el.classList.add("is-visible"), delay);
+              observer.unobserve(el);
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -60px 0px" },
+        );
+
+        revealTargets.forEach((el) => observer.observe(el));
+      }
+
+      // ---- Nav: condense on scroll ---------------------------------------
+      const nav = document.getElementById("site-nav");
+      if (nav) {
+        const onScroll = () => {
+          nav.classList.toggle("is-scrolled", window.scrollY > 24);
+        };
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+      }
+
+      // ---- Mobile menu ----------------------------------------------------
+      const toggle = document.getElementById("nav-toggle");
+      const panel = document.getElementById("nav-panel");
+      if (toggle && panel) {
+        toggle.addEventListener("click", () => {
+          const open = panel.classList.toggle("is-open");
+          toggle.setAttribute("aria-expanded", String(open));
+          document.body.style.overflow = open ? "hidden" : "";
+        });
+        panel.querySelectorAll("a").forEach((a) =>
+          a.addEventListener("click", () => {
+            panel.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+            document.body.style.overflow = "";
+          }),
+        );
+      }
+    </script>
+  </body>
+</html>

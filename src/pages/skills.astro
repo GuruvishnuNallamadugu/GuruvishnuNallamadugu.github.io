@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/Section.astro";
+import SkillMeter from "@/components/SkillMeter.astro";
+import { skillGroups, levelLabels } from "@/data/site";
+
+const totalSkills = skillGroups.reduce((n, g) => n + g.skills.length, 0);
+---
+
+<BaseLayout
+  active="/skills/"
+  title="Technical Skills | Guruvishnu Nallamadugu"
+  description="CAD (Siemens NX, SolidWorks, Creo, CATIA V5), GD&T and tolerance stack-up, DFM/DFA, 3D printing and prototyping, RCA/5-Why/DFMEA, BOM and ECO/ECN management, Lean and Six Sigma, Python and MATLAB."
+>
+  <div class="pt-32">
+    <Section
+      eyebrow="Capability"
+      title="Technical skills"
+      lead={`${totalSkills} capabilities across six disciplines, each rated by depth of working experience rather than exposure.`}
+    >
+      <!-- Legend -->
+      <div
+        class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border border-line bg-surface/50 px-6 py-4"
+        data-reveal
+      >
+        <span class="mono-label">Scale</span>
+        {
+          ([1, 2, 3] as const).map((lvl) => (
+            <div class="flex items-center gap-3">
+              <span class="flex gap-1" aria-hidden="true">
+                {[1, 2, 3].map((i) => (
+                  <span
+                    class:list={[
+                      "block w-5 h-[3px]",
+                      i <= lvl ? "bg-accent" : "bg-line-bright",
+                    ]}
+                  />
+                ))}
+              </span>
+              <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                {levelLabels[lvl]}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Groups -->
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        {
+          skillGroups.map((group, i) => (
+            <div
+              class="panel corner-ticks p-7 flex flex-col"
+              data-reveal
+              data-reveal-delay={(i % 2) * 90}
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h2 class="text-xl leading-snug">{group.title}</h2>
+                  <p class="mt-2.5 text-sm text-muted leading-relaxed max-w-md">
+                    {group.description}
+                  </p>
+                </div>
+                <span class="font-mono text-[11px] text-dim tracking-[0.16em] shrink-0">
+                  {group.code}
+                </span>
+              </div>
+
+              <div class="mt-6 pt-2 border-t border-line">
+                {group.skills.map((s) => (
+                  <SkillMeter name={s.name} level={s.level} />
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Note -->
+      <p
+        class="mt-10 max-w-2xl text-xs text-dim leading-relaxed"
+        data-reveal
+      >
+        Ratings reflect depth of applied use in professional work rather than
+        familiarity — "Expert" indicates a tool or method used as a primary
+        instrument of delivery on shipped work.
+      </p>
+    </Section>
+  </div>
+</BaseLayout>

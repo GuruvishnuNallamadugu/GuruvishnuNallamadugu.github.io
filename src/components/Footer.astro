@@ -1,0 +1,99 @@
+---
+import { profile, navigation } from "@/data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="relative border-t border-line mt-32 overflow-hidden">
+  <div
+    class="absolute inset-0 blueprint-grid opacity-30 pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-6 lg:px-10 py-16">
+    <div class="grid gap-12 md:grid-cols-12">
+      <!-- Identity + CTA -->
+      <div class="md:col-span-5">
+        <p class="eyebrow">Get in touch</p>
+        <h2 class="mt-5 text-3xl sm:text-4xl">
+          Currently open to<br />
+          <span class="text-accent">engineering roles.</span>
+        </h2>
+        <p class="mt-5 text-sm text-muted max-w-sm leading-relaxed">
+          Mechanical design, manufacturing engineering, and R&D equipment
+          development. Based in {profile.location}.
+        </p>
+        <a href={`mailto:${profile.email}`} class="btn btn-primary mt-8">
+          {profile.email}
+        </a>
+      </div>
+
+      <div class="md:col-span-2"></div>
+
+      <!-- Sitemap -->
+      <div class="md:col-span-2">
+        <p class="mono-label">Navigate</p>
+        <ul class="mt-5 space-y-2.5">
+          {
+            navigation.map((item) => (
+              <li>
+                <a href={item.href} class="text-sm text-muted link-underline">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Elsewhere -->
+      <div class="md:col-span-3">
+        <p class="mono-label">Elsewhere</p>
+        <ul class="mt-5 space-y-2.5">
+          <li>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener"
+              class="text-sm text-muted link-underline">LinkedIn</a
+            >
+          </li>
+          <li>
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener"
+              class="text-sm text-muted link-underline">GitHub</a
+            >
+          </li>
+          <li>
+            <a
+              href={profile.resumePath}
+              target="_blank"
+              rel="noopener"
+              class="text-sm text-muted link-underline">Résumé (PDF)</a
+            >
+          </li>
+          <li>
+            <a
+              href={`mailto:${profile.email}`}
+              class="text-sm text-muted link-underline">Email</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Baseline -->
+    <div
+      class="mt-16 pt-6 border-t border-line flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between"
+    >
+      <p class="font-mono text-[10px] tracking-[0.14em] uppercase text-dim">
+        © {year} {profile.name}
+      </p>
+      <p class="font-mono text-[10px] tracking-[0.14em] uppercase text-dim">
+        Built with Astro · Deployed on GitHub Pages
+      </p>
+    </div>
+  </div>
+</footer>

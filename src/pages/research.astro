@@ -1,0 +1,163 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/Section.astro";
+import OrbitSimulator from "@/components/OrbitSimulator";
+
+const method = [
+  {
+    code: "01",
+    title: "Real ephemeris data",
+    body: "Orbital elements and ephemeris for near-Earth asteroids retrieved from the NASA JPL Small-Body Database. Propagating published elements rather than invented initial conditions means results can be checked against an external reference.",
+  },
+  {
+    code: "02",
+    title: "Two-body propagation",
+    body: "A Python framework models two-dimensional asteroid trajectories from first principles of celestial mechanics — advancing a state vector under gravitational dynamics to establish where an object is, and where it will be.",
+  },
+  {
+    code: "03",
+    title: "Intervention windows",
+    body: "The same impulse applied at different points in an orbit produces very different results. The simulation searches the orbit to identify where an applied ΔV buys the greatest orbital change for the least propellant.",
+  },
+  {
+    code: "04",
+    title: "Constrained optimisation",
+    body: "Numerical methods minimise propulsion requirements subject to a hard constraint: the resulting orbit must remain stable long-term. A minimum-ΔV solution that decays within a few years is not a solution.",
+  },
+  {
+    code: "05",
+    title: "Engineering simulation",
+    body: "ANSYS simulations evaluate force application strategies, orbital stability and mission feasibility — bridging from astrodynamics to the mechanical problem of actually delivering the impulse to a real body.",
+  },
+  {
+    code: "06",
+    title: "Trajectory visualisation",
+    body: "2-D visualisations of orbital transfers allow trajectory alternatives to be compared directly, supporting mission planning for future in-space resource utilisation.",
+  },
+];
+---
+
+<BaseLayout
+  active="/research/"
+  title="Research | Guruvishnu Nallamadugu"
+  description="Celestial-mechanics-based asteroid orbit optimization for future space resource utilization — a Python framework propagating real NASA JPL ephemeris data to find minimum-ΔV transfers, with an interactive browser simulator."
+>
+  <div class="pt-32">
+    <!-- ==================== HEADER ==================== -->
+    <Section
+      eyebrow="Ongoing research · May 2024 — Present"
+      title="Asteroid orbit optimization"
+      lead="Celestial-mechanics-based orbit optimization for future space resource utilisation. In-space resource utilisation depends on getting material somewhere useful — this research answers, quantitatively, what that costs and when the cost is lowest."
+    >
+      <!-- ==================== SIMULATOR ==================== -->
+      <div class="mt-14" data-reveal>
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-5">
+          <div>
+            <p class="mono-label">Interactive model</p>
+            <h2 class="mt-2 text-2xl">Transfer orbit solver</h2>
+          </div>
+          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
+            Live Keplerian propagation
+          </p>
+        </div>
+
+        <div class="border border-line">
+          <OrbitSimulator client:visible />
+        </div>
+
+        <p class="mt-5 max-w-3xl text-sm text-muted leading-relaxed">
+          A browser implementation of the same two-body propagation the research
+          framework is built on. Select a real near-Earth asteroid, apply a
+          prograde impulse at any point in its orbit, and the resulting orbital
+          elements are solved from the state vector in real time — semi-major
+          axis from vis-viva, eccentricity from the eccentricity vector, and the
+          asteroid's position propagated by Newton–Raphson solution of Kepler's
+          equation.
+        </p>
+        <p class="mt-3 max-w-3xl text-xs text-dim leading-relaxed">
+          Simplifications for the browser: coplanar two-body dynamics, circular
+          planetary orbits, and impulsive burns. The research framework relaxes
+          these.
+        </p>
+      </div>
+    </Section>
+
+    <!-- ==================== METHOD ==================== -->
+    <Section
+      eyebrow="Method"
+      title="How the framework works"
+      class="!pt-4"
+    >
+      <div class="mt-14 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3 border border-line">
+        {
+          method.map((m, i) => (
+            <div
+              class="bg-base p-7 hover:bg-surface transition-colors duration-500"
+              data-reveal
+              data-reveal-delay={(i % 3) * 80}
+            >
+              <span class="font-mono text-[11px] tracking-[0.16em] text-accent">
+                {m.code}
+              </span>
+              <h3 class="mt-4 text-lg leading-snug">{m.title}</h3>
+              <p class="mt-3 text-sm text-muted leading-relaxed">{m.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Section>
+
+    <!-- ==================== KEY IDEA ==================== -->
+    <Section class="!pt-4">
+      <div class="grid lg:grid-cols-12 gap-10" data-reveal>
+        <div class="lg:col-span-4">
+          <p class="eyebrow">The core constraint</p>
+          <h2 class="mt-5 text-3xl">Stability is not<br />a post-check.</h2>
+        </div>
+        <div class="lg:col-span-7 lg:col-start-6 space-y-5">
+          <p class="text-base text-muted leading-relaxed">
+            The naive framing of this problem — find the smallest ΔV that moves
+            an asteroid to a useful orbit — produces answers that are worthless
+            in practice, because the cheapest transfers frequently land the body
+            in configurations that decay or escape on timescales far shorter than
+            any mission could exploit.
+          </p>
+          <p class="text-base text-muted leading-relaxed">
+            Treating long-term orbital stability as a constraint on the
+            optimisation rather than as something verified afterwards makes the
+            problem substantially harder and the results substantially more
+            useful. It is the same principle as designing to manufacturing
+            constraints from the first sketch rather than discovering them at
+            first article.
+          </p>
+          <p class="text-base text-muted leading-relaxed">
+            The other half is the Oberth effect: because the change in orbital
+            energy from an impulse scales with the velocity at which it is
+            applied, burning at periapsis — where the body is moving fastest —
+            extracts the most orbital change per unit of propellant. This is why
+            the intervention <em class="text-ink not-italic font-medium">window</em>
+            matters as much as the intervention <em class="text-ink not-italic font-medium">magnitude</em>.
+          </p>
+        </div>
+      </div>
+    </Section>
+
+    <!-- ==================== CTA ==================== -->
+    <Section class="!pt-4">
+      <div class="panel corner-ticks p-8 sm:p-12 text-center" data-reveal>
+        <p class="eyebrow justify-center">Full write-up</p>
+        <h2 class="mt-5 text-3xl">Read the case study</h2>
+        <p class="mt-4 mx-auto max-w-xl text-sm text-muted leading-relaxed">
+          Premise, data sources, optimisation approach, engineering simulation
+          and current status.
+        </p>
+        <a
+          href="/projects/asteroid-orbit-optimization/"
+          class="btn btn-primary mt-8"
+        >
+          Asteroid orbit optimization
+        </a>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

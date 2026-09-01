@@ -1,0 +1,180 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/Section.astro";
+import { profile, skillGroups } from "@/data/site";
+
+const channels = [
+  {
+    label: "Email",
+    value: profile.email,
+    href: `mailto:${profile.email}`,
+    note: "Best for role enquiries — I reply to everything.",
+    icon: "mail",
+  },
+  {
+    label: "LinkedIn",
+    value: "in/guruvishnunallamadugu",
+    href: profile.linkedin,
+    note: "Full professional history and connections.",
+    icon: "linkedin",
+  },
+  {
+    label: "GitHub",
+    value: "GuruvishnuNallamadugu",
+    href: profile.github,
+    note: "Code from the orbital-mechanics research and other projects.",
+    icon: "github",
+  },
+  {
+    label: "Résumé",
+    value: "PDF · one page",
+    href: profile.resumePath,
+    note: "The condensed version, formatted for ATS and print.",
+    icon: "doc",
+  },
+];
+
+const seeking = [
+  "Mechanical Design Engineer",
+  "Manufacturing Engineer",
+  "Product Design Engineer",
+  "R&D / Equipment Engineer",
+  "Process Engineer",
+];
+
+const topSkills = skillGroups
+  .flatMap((g) => g.skills)
+  .filter((s) => s.level === 3)
+  .map((s) => s.name);
+---
+
+<BaseLayout
+  active="/contact/"
+  title="Contact | Guruvishnu Nallamadugu"
+  description="Get in touch with Guruvishnu Nallamadugu — Mechanical Design & Manufacturing Engineer based in Starkville, Mississippi. Open to design, manufacturing and R&D engineering roles."
+>
+  <div class="pt-32">
+    <Section
+      eyebrow="Contact"
+      title="Let's talk."
+      lead="I'm currently open to mechanical design, manufacturing and R&D engineering roles. The fastest way to reach me is email."
+    >
+      <div class="mt-16 grid lg:grid-cols-12 gap-10">
+        <!-- Channels -->
+        <div class="lg:col-span-7">
+          <ul class="grid sm:grid-cols-2 gap-px bg-line border border-line">
+            {
+              channels.map((c, i) => (
+                <li class="bg-base" data-reveal data-reveal-delay={i * 70}>
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("mailto") ? undefined : "_blank"}
+                    rel="noopener"
+                    class="group flex flex-col h-full p-7 hover:bg-surface transition-colors duration-400"
+                  >
+                    <div class="flex items-center justify-between">
+                      <span class="mono-label group-hover:!text-accent transition-colors">
+                        {c.label}
+                      </span>
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        class="text-dim transition-all duration-300 group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M3 11L11 3M11 3H5M11 3v6"
+                          stroke="currentColor"
+                          stroke-width="1.4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+
+                    <p class="mt-4 text-base text-ink break-all group-hover:text-accent transition-colors">
+                      {c.value}
+                    </p>
+                    <p class="mt-3 text-xs text-dim leading-relaxed">{c.note}</p>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+
+          <!-- Big email CTA -->
+          <a
+            href={`mailto:${profile.email}`}
+            class="group mt-6 flex items-center justify-between gap-6 border border-line-bright p-7 hover:border-accent transition-colors duration-400"
+            data-reveal
+          >
+            <div>
+              <p class="mono-label">Write to me</p>
+              <p class="mt-2 font-display text-xl sm:text-2xl text-ink group-hover:text-accent transition-colors break-all">
+                {profile.email}
+              </p>
+            </div>
+            <span
+              class="shrink-0 grid place-items-center w-12 h-12 border border-line-bright group-hover:border-accent group-hover:bg-accent group-hover:text-void transition-all duration-400"
+              aria-hidden="true"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-5 space-y-6">
+          <div class="panel p-7" data-reveal data-reveal-delay="120">
+            <p class="mono-label">Status</p>
+            <div class="mt-4 flex items-center gap-2.5">
+              <span class="relative flex w-2 h-2">
+                <span
+                  class="absolute inline-flex w-full h-full bg-signal opacity-60 animate-ping"
+                ></span>
+                <span class="relative inline-flex w-2 h-2 bg-signal"></span>
+              </span>
+              <span class="text-sm text-ink">Open to opportunities</span>
+            </div>
+            <p class="mt-4 text-sm text-muted leading-relaxed">
+              Based in {profile.location}. Open to relocation within the US.
+            </p>
+          </div>
+
+          <div class="panel p-7" data-reveal data-reveal-delay="180">
+            <p class="mono-label">Roles I'm targeting</p>
+            <ul class="mt-4 space-y-2.5">
+              {
+                seeking.map((r) => (
+                  <li class="relative pl-5 text-sm text-muted">
+                    <span
+                      class="absolute left-0 top-[0.55rem] block w-2.5 h-px bg-accent"
+                      aria-hidden="true"
+                    />
+                    {r}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="panel p-7" data-reveal data-reveal-delay="240">
+            <p class="mono-label">Core strengths</p>
+            <ul class="mt-4 flex flex-wrap gap-1.5">
+              {topSkills.map((s) => <li class="tag">{s}</li>)}
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>
