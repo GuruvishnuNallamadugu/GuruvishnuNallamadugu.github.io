@@ -87,15 +87,15 @@ Keep the same aspect ratios — `16/10` on cards, `21/9` on the case-study heade
 
 ## Your portrait
 
-> ⚠️ **`src/assets/portrait.jpg` is currently a generated placeholder.** Replace it before you publish, or the site will show a "PORTRAIT PLACEHOLDER" card in the About section.
+**The portrait is optional.** With no photo present the About section simply omits it and the site builds and publishes normally — so you can go live now and add a photo whenever you have one.
 
-Save your photo over that exact path, keeping the filename:
+To add it, drop the file in `src/assets/` named `portrait`, with any of these extensions: `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
 
 ```
 src/assets/portrait.jpg
 ```
 
-Astro handles the rest at build time — it generates responsive WebP variants at 400/640/900 px wide and serves the right one per device. No manual resizing or optimising needed.
+It appears on the next build with no code change. Astro handles the rest at build time — it generates responsive WebP variants at 400/640/900 px wide and serves the right one per device. No manual resizing or optimising needed.
 
 **Framing.** The frame is 4:5 and the photo is cropped with `object-fit: cover`, so a tall source is fine. If the crop sits wrong, adjust one value in `src/components/Portrait.astro`:
 
