@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/Section.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
-import WireframeAssembly from "@/components/WireframeAssembly";
+import WireframeAssembly from "@/components/WireframeAssembly.astro";
 import Portrait from "@/components/Portrait.astro";
 import {
   profile,
@@ -124,11 +124,7 @@ const ticker = [...skillTicker, ...skillTicker];
           <div
             class="relative aspect-square w-full max-w-[280px] sm:max-w-[360px] lg:max-w-[440px] mx-auto"
           >
-            <!--
-              Hydrated only at >=1024px: phones keep the server-rendered SVG
-              and never download the ~230 kB (gzip) WebGL bundle.
-            -->
-            <WireframeAssembly client:media="(min-width: 1024px)" />
+            <WireframeAssembly />
             <!-- Corner registration marks -->
             <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
               {

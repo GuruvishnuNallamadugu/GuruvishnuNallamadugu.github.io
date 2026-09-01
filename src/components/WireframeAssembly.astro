@@ -1,0 +1,278 @@
+---
+/**
+ * Rotating wireframe pulley assembly — a grooved sheave, hub, bolt circle and
+ * concentric guide rings, drawn as CAD hidden-line edges.
+ *
+ * Deliberately NOT a React island. @react-three/fiber's <Canvas> measures its
+ * container with a ResizeObserver that never reported a size in the production
+ * build, so the canvas stayed at its default 300x150 and rendered nothing —
+ * while working fine in dev. Driving Three.js directly means the sizing is
+ * explicit and verifiable, and it keeps React off the homepage entirely.
+ *
+ * The SVG below is the real server-rendered content: it is what no-JS,
+ * reduced-motion and small-screen visitors see. The canvas is only ever an
+ * enhancement layered over it.
+ */
+
+const ACCENT = "#ff6b35";
+const STEEL = "#5c9ead";
+const LINE = "#3a424b";
+
+const bolts = Array.from({ length: 6 }, (_, i) => {
+  const a = (i / 6) * Math.PI * 2;
+  return { cx: Math.cos(a) * 55, cy: Math.sin(a) * 21 };
+});
+---
+
+<div class="wireframe relative w-full h-full" data-wireframe>
+  <svg
+    viewBox="0 0 400 400"
+    class="wireframe-fallback w-full h-full"
+    aria-hidden="true"
+    role="presentation"
+  >
+    <g fill="none" stroke={LINE} stroke-width="1" transform="translate(200 200)">
+      <circle r="150" opacity="0.3"></circle>
+      <circle r="124" opacity="0.55"></circle>
+      <ellipse rx="88" ry="34" stroke={ACCENT} opacity="0.9"></ellipse>
+      <ellipse rx="88" ry="26" stroke={ACCENT} opacity="0.5"></ellipse>
+      <ellipse rx="34" ry="13" stroke={STEEL} opacity="0.75"></ellipse>
+      {
+        bolts.map((b) => (
+          <circle cx={b.cx} cy={b.cy} r="4" stroke={ACCENT} opacity="0.6" />
+        ))
+      }
+      <line x1="-150" y1="0" x2="150" y2="0" opacity="0.25"></line>
+      <line x1="0" y1="-150" x2="0" y2="150" opacity="0.25"></line>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .wireframe canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Cross-fade the SVG out only once the canvas has actually drawn a frame. */
+  .wireframe-fallback {
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .wireframe[data-live="true"] .wireframe-fallback {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  // Type-only — erased at build, so it adds nothing to the bundle. The runtime
+  // value comes from the dynamic import inside start().
+  import type * as ThreeNS from "three";
+
+  const root = document.querySelector<HTMLElement>("[data-wireframe]");
+
+  const shouldEnhance = () =>
+    !!root &&
+    window.matchMedia("(min-width: 1024px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  async function start() {
+    if (!root || root.dataset.live === "true") return;
+
+    const THREE = await import("three");
+
+    // --- Renderer ------------------------------------------------------
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
+    renderer.setClearAlpha(0);
+    root.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 0, 7.4);
+
+    // --- Geometry ------------------------------------------------------
+    const profile = [
+      new THREE.Vector2(0.62, -0.16),
+      new THREE.Vector2(1.42, -0.16),
+      new THREE.Vector2(1.58, -0.07),
+      new THREE.Vector2(1.58, 0.07),
+      new THREE.Vector2(1.42, 0.16),
+      new THREE.Vector2(0.62, 0.16),
+    ];
+
+    const geo = {
+      sheave: new THREE.LatheGeometry(profile, 48),
+      hub: new THREE.CylinderGeometry(0.62, 0.62, 0.5, 32, 1, true),
+      bore: new THREE.CylinderGeometry(0.3, 0.3, 0.62, 24, 1, true),
+      ring: new THREE.TorusGeometry(2.25, 0.022, 8, 96),
+      ringOuter: new THREE.TorusGeometry(2.72, 0.016, 6, 96),
+      bolt: new THREE.CylinderGeometry(0.075, 0.075, 0.42, 12),
+      bracket: new THREE.BoxGeometry(0.16, 1.1, 0.42),
+    };
+
+    const disposables: { dispose(): void }[] = Object.values(geo);
+
+    const edges = (
+      g: ThreeNS.BufferGeometry,
+      color: string,
+      opacity: number,
+      threshold = 18,
+    ) => {
+      const eg = new THREE.EdgesGeometry(g, threshold);
+      const mat = new THREE.LineBasicMaterial({
+        color,
+        transparent: true,
+        opacity,
+        depthWrite: false,
+      });
+      disposables.push(eg, mat);
+      return new THREE.LineSegments(eg, mat);
+    };
+
+    // --- Assembly ------------------------------------------------------
+    const group = new THREE.Group();
+    group.rotation.x = 0.42;
+    scene.add(group);
+
+    const ring = edges(geo.ring, "#3a424b", 0.55);
+    ring.rotation.x = Math.PI / 2;
+    const ringOuter = edges(geo.ringOuter, "#3a424b", 0.3);
+    ringOuter.rotation.x = Math.PI / 2;
+    group.add(ring, ringOuter);
+
+    const inner = new THREE.Group();
+    inner.add(
+      edges(geo.sheave, "#ff6b35", 0.9),
+      edges(geo.hub, "#5c9ead", 0.75),
+      edges(geo.bore, "#5c9ead", 0.5),
+    );
+
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
+      const bolt = edges(geo.bolt, "#ff6b35", 0.6);
+      bolt.position.set(Math.cos(a) * 0.98, 0, Math.sin(a) * 0.98);
+      inner.add(bolt);
+    }
+    group.add(inner);
+
+    for (const x of [2.25, -2.25]) {
+      const bracket = edges(geo.bracket, "#3a424b", 0.8);
+      bracket.position.x = x;
+      group.add(bracket);
+    }
+
+    // --- Motes ---------------------------------------------------------
+    const moteCount = 90;
+    const positions = new Float32Array(moteCount * 3);
+    for (let i = 0; i < moteCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 14;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 9;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 7 - 2;
+    }
+    const moteGeo = new THREE.BufferGeometry();
+    moteGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    const moteMat = new THREE.PointsMaterial({
+      size: 0.035,
+      color: "#5c9ead",
+      transparent: true,
+      opacity: 0.4,
+      sizeAttenuation: true,
+    });
+    const motes = new THREE.Points(moteGeo, moteMat);
+    scene.add(motes);
+    disposables.push(moteGeo, moteMat);
+
+    // --- Sizing. Explicit, observed, and verified before first paint. ---
+    let sized = false;
+    const resize = () => {
+      const { width, height } = root.getBoundingClientRect();
+      if (width < 2 || height < 2) return;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      sized = true;
+    };
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(root);
+    resize();
+
+    // --- Pointer parallax ----------------------------------------------
+    const pointer = { x: 0, y: 0 };
+    const onPointer = (e: PointerEvent) => {
+      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = -((e.clientY / window.innerHeight) * 2 - 1);
+    };
+    window.addEventListener("pointermove", onPointer, { passive: true });
+
+    // --- Loop -----------------------------------------------------------
+    const clock = new THREE.Clock();
+    let running = true;
+    let painted = false;
+
+    const damp = THREE.MathUtils.damp;
+
+    const tick = () => {
+      if (!running) return;
+      requestAnimationFrame(tick);
+
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const t = clock.elapsedTime;
+
+      if (!sized) {
+        resize();
+        if (!sized) return;
+      }
+
+      inner.rotation.y += dt * 0.28;
+      group.rotation.x = damp(group.rotation.x, -pointer.y * 0.28 + 0.42, 2.4, dt);
+      group.rotation.z = damp(group.rotation.z, pointer.x * 0.4, 2.4, dt);
+      group.position.y = Math.sin(t * 0.5) * 0.07;
+      motes.rotation.y += dt * 0.02;
+
+      renderer.render(scene, camera);
+
+      // Only hide the SVG once a real frame exists, so there is never a gap.
+      if (!painted) {
+        painted = true;
+        root.dataset.live = "true";
+      }
+    };
+    tick();
+
+    // Stop the loop while the tab is hidden.
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        running = false;
+      } else if (!running) {
+        running = true;
+        clock.getDelta();
+        tick();
+      }
+    });
+  }
+
+  if (shouldEnhance()) {
+    // Wait for idle so the bundle never competes with first paint.
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(() => start(), { timeout: 2500 });
+    } else {
+      setTimeout(start, 300);
+    }
+  } else if (root) {
+    // Upgrade later if the viewport grows past the desktop breakpoint.
+    window
+      .matchMedia("(min-width: 1024px)")
+      .addEventListener("change", () => {
+        if (shouldEnhance()) start();
+      });
+  }
+</script>
