@@ -15,7 +15,11 @@ export const profile = {
   // resume PDF instead. Add it here only if you want it crawlable.
   linkedin: "https://www.linkedin.com/in/guruvishnunallamadugu/",
   github: "https://github.com/GuruvishnuNallamadugu",
-  resumePath: "/assets/Guruvishnu_Nallamadugu_Resume.pdf",
+  // The ?v= query string is a cache-buster. Browsers and PDF viewers cache
+  // PDFs aggressively, so a changed file at an unchanged URL keeps showing
+  // the old version to anyone who opened it before. Bump the date whenever
+  // the PDF changes and every link on the site points at a "new" URL.
+  resumePath: "/assets/Guruvishnu_Nallamadugu_Resume.pdf?v=2026-09-21",
   availability: "Open to Mechanical Design & Manufacturing Engineering roles",
 } as const;
 

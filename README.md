@@ -113,7 +113,9 @@ Or override per use: `<Portrait focus="50% 25%" />`.
 
 ## Updating the résumé
 
-Replace `public/assets/Guruvishnu_Nallamadugu_Resume.pdf` with the new file, keeping the same filename. The download links pick it up automatically.
+Replace `public/assets/Guruvishnu_Nallamadugu_Resume.pdf` with the new file, keeping the same filename — **then bump the `?v=` date on `resumePath` in `src/data/site.ts`.**
+
+That second step matters. Browsers and PDF viewers cache PDFs aggressively, so a changed file at an unchanged URL keeps showing the *old* résumé to anyone who opened it before (including you). Changing the query string makes every link on the site point at what the browser treats as a new URL.
 
 ---
 
