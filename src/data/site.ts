@@ -23,7 +23,7 @@ export const profile = {
   // PDFs aggressively, so a changed file at an unchanged URL keeps showing
   // the old version to anyone who opened it before. Bump the date whenever
   // the PDF changes and every link on the site points at a "new" URL.
-  resumePath: "/assets/Guruvishnu_Nallamadugu_Resume.pdf?v=2026-10-03",
+  resumePath: "/assets/Guruvishnu_Nallamadugu_Resume.pdf?v=2026-10-03b",
   availability: "Open to Mechanical Design & Manufacturing Engineering roles · Willing to relocate",
 } as const;
 
