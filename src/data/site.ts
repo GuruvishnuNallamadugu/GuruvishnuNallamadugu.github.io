@@ -1,6 +1,10 @@
 /**
  * Single source of truth for all site content.
  * Edit this file to update the portfolio — no component changes needed.
+ *
+ * Keep this file in step with the résumé PDF in public/assets: recruiters
+ * click through from the résumé, and any number or title that differs
+ * between the two reads as an inconsistency.
  */
 
 export const profile = {
@@ -8,8 +12,8 @@ export const profile = {
   shortName: "Guruvishnu",
   initials: "GN",
   role: "Mechanical Design & Manufacturing Engineer",
-  tagline: "Aerospace · CAD & GD&T · Prototyping · Process Improvement",
-  location: "Starkville, Mississippi, USA",
+  tagline: "Tooling & Fixtures · DFM/DFA · GD&T · Assembly Process Improvement",
+  location: "Starkville, Mississippi, USA (Willing to Relocate)",
   email: "guruvishnu1922@gmail.com",
   // Phone is intentionally NOT published on the public site — it lives on the
   // resume PDF instead. Add it here only if you want it crawlable.
@@ -19,26 +23,26 @@ export const profile = {
   // PDFs aggressively, so a changed file at an unchanged URL keeps showing
   // the old version to anyone who opened it before. Bump the date whenever
   // the PDF changes and every link on the site points at a "new" URL.
-  resumePath: "/assets/Guruvishnu_Nallamadugu_Resume.pdf?v=2026-09-21",
-  availability: "Open to Mechanical Design & Manufacturing Engineering roles",
+  resumePath: "/assets/Guruvishnu_Nallamadugu_Resume.pdf?v=2026-10-03",
+  availability: "Open to Mechanical Design & Manufacturing Engineering roles · Willing to relocate",
 } as const;
 
 export const seo = {
   title: "Guruvishnu Nallamadugu | Mechanical Design & Manufacturing Engineer",
   description:
-    "Mechanical Design & Manufacturing Engineer with 3+ years across aerospace and research equipment. CAD (Creo, NX, CATIA, SolidWorks), GD&T, DFM/DFA, rapid prototyping, and process improvement.",
+    "Mechanical design and manufacturing engineer with nearly 3 years of industry experience in tooling and fixture design, DFM/DFA, GD&T and assembly process improvement. Creo, SolidWorks, Siemens NX. M.S. Aerospace Engineering.",
   keywords: [
     "Mechanical Design Engineer",
     "Manufacturing Engineer",
-    "Aerospace Engineer",
+    "Tooling and Fixture Design",
     "CAD",
     "GD&T",
+    "Tolerance Stack-Up",
     "DFM",
     "DFA",
-    "Siemens NX",
-    "SolidWorks",
     "Creo",
-    "CATIA",
+    "SolidWorks",
+    "Siemens NX",
     "3D Printing",
     "Guruvishnu Nallamadugu",
   ],
@@ -48,13 +52,13 @@ export const seo = {
    SUMMARY / ABOUT
    ------------------------------------------------------------------ */
 
-export const summary = `Mechanical Design & Manufacturing Engineer with 3+ years of experience in mechanical design, manufacturing support, process improvement, and equipment development. Experienced in CAD design, GD&T, DFM/DFA, 3D printing, prototyping, BOMs, ECO/ECN, and root cause analysis.`;
+export const summary = `Manufacturing engineer with nearly 3 years of industry experience in tooling and fixture design, DFM/DFA, and assembly process improvement. Cut cold room setup time by 25% across 42 installations at Bharat Electronics and monthly production time by 8% at Tata Sikorsky. Designs in Creo, SolidWorks, and Siemens NX. M.S. in Aerospace Engineering.`;
 
 export const aboutParagraphs = [
-  `I design equipment that has to work outside the lab. My background runs from aerospace flight-control hardware at Tata Sikorsky, through cold-storage and HVAC manufacturing at Bharat Electronics, to my current role designing custom research instrumentation at Mississippi State University.`,
-  `What connects those roles is a bias toward the practical end of engineering: taking a functional requirement, turning it into a 3D model that can actually be manufactured and assembled, printing it, testing it, and revising it. I work in Creo, Siemens NX, CATIA V5 and SolidWorks, and I lean hard on GD&T and tolerance stack-up analysis because most assembly problems are tolerance problems that nobody caught on the drawing.`,
-  `On the manufacturing side, I've developed SOPs and run time studies that cut cycle time 25%, optimized aerospace part designs for automated production cells for an 8% cycle-time gain, and managed BOMs and ECO/ECN changes to keep configuration under control. I use RCA, 5-Why and DFMEA as everyday tools rather than paperwork.`,
-  `I hold an M.S. and B.S. in Aerospace Engineering. Alongside the design work I run an ongoing research project modelling asteroid orbit transfers in Python with real JPL ephemeris data — the part of engineering where the math has to be right before any hardware exists.`,
+  `I design parts and equipment that get built, installed and used — not just modelled. I have nearly 3 years of industry experience across cold-room manufacturing at Bharat Electronics, aerospace flight-control hardware at Tata Sikorsky, and my current role as Mechanical Design Engineer at Mississippi State University, where I've designed and built 40+ custom products for campus departments.`,
+  `At Bharat Electronics I built 42 walk-in cold rooms — panels made to each site's dimensions, refrigeration units assembled, and everything installed at client sites. Finding an assembly bottleneck and working it out with local civil engineers cut on-site setup from 4 days to 3 per room.`,
+  `At Tata Sikorsky I designed flight-control cable pulleys and guide brackets in Creo and SolidWorks. Adding edge radii removed a manual deburring step and cut monthly production time by 8%, and I pushed the same change into the company's legacy design library so future parts started from the improved version. I created the GD&T manufacturing drawings and ran the tolerance stack-ups before release.`,
+  `My CAD work is mainly in Creo, SolidWorks and Siemens NX. I hold an M.S. in Aerospace Engineering from Mississippi State University, where I also taught Mechanics of Materials recitations for four semesters, and I run an ongoing Python research project on minimum-ΔV asteroid orbit transfers.`,
 ];
 
 /* ------------------------------------------------------------------
@@ -62,10 +66,10 @@ export const aboutParagraphs = [
    ------------------------------------------------------------------ */
 
 export const metrics = [
-  { value: "3+", label: "Years experience", detail: "Design, manufacturing & research" },
-  { value: "25%", label: "Cycle time reduced", detail: "SOPs & time studies at BEL" },
-  { value: "6-in-1", label: "Instrument assembly", detail: "Consolidated field system at MSU" },
-  { value: "100+", label: "Students mentored", detail: "Per semester, 4 semesters" },
+  { value: "40+", label: "Custom products built", detail: "For campus departments at MSU" },
+  { value: "42", label: "Cold rooms built", detail: "Fabricated & installed at BEL" },
+  { value: "25%", label: "Setup time cut", detail: "4 days → 3 per cold room" },
+  { value: "8%", label: "Production time cut", detail: "Edge radii removed deburring" },
 ] as const;
 
 /* ------------------------------------------------------------------
@@ -87,21 +91,22 @@ export interface Role {
 export const experience: Role[] = [
   {
     company: "Mississippi State University",
-    title: "Design Engineer",
+    title: "Mechanical Design Engineer",
     location: "Starkville, MS",
     start: "Jan 2026",
     end: "Present",
     current: true,
     summary:
-      "Designing custom research equipment and mechanical assemblies for laboratory and field deployment.",
+      "Designing and building custom products, fixtures and equipment for campus departments.",
     bullets: [
-      "Design and develop custom research equipment and mechanical assemblies for laboratory and field applications, translating researchers' functional requirements into practical engineering solutions using 3D CAD modeling.",
-      "Redesigned existing research equipment to reduce overall footprint, optimize space utilization and simplify field installation — including a compact 6-in-1 instrumentation assembly integrating multiple environmental and soil measurement devices into a single system.",
-      "Apply DFM and DFA principles to component design, considering material selection, dimensions, tolerances, fastening methods, manufacturability, accessibility and ease of assembly.",
-      "Develop functional prototypes using 3D printing to evaluate fit, form, component integration and functionality; iteratively refine CAD designs based on prototype testing, dimensional constraints and researcher feedback.",
-      "Conduct field testing and design validation alongside research teams, comparing measurements from prototype integrated instruments against reference equipment to verify measurement consistency and confirm the mechanical design does not interfere with sensor accuracy.",
+      "Designed and built 40+ custom products for campus departments in Creo, SolidWorks, and Siemens NX.",
+      "Designed a 3D-printed 6-in-1 field instrument (sensors, battery, fan) that replaced 6 separate instruments.",
+      "Redesigned sample dryer racks: fixed warped frames, upgraded the mesh, and added insulated handles.",
+      "Designed wall-mounted storage with adjustable dual-arm clamps that hold irregular tools off the floor.",
+      "Test and validate each design with the requesting department before final build.",
+      "Review designs with manufacturing and product development teams before fabrication.",
     ],
-    stack: ["3D CAD", "DFM/DFA", "3D Printing", "Field Validation", "Prototyping"],
+    stack: ["Creo", "SolidWorks", "Siemens NX", "3D Printing", "DFM/DFA", "Prototyping"],
   },
   {
     company: "Mississippi State University",
@@ -109,48 +114,46 @@ export const experience: Role[] = [
     location: "Starkville, MS",
     start: "Jan 2024",
     end: "Dec 2025",
-    summary:
-      "Mechanics of Materials — four semesters of recitation, labs and mentoring.",
+    summary: "Mechanics of Materials recitations — four semesters.",
     bullets: [
-      "Served as Graduate Teaching Assistant for Mechanics of Materials across 4 semesters, leading weekly recitation sessions and mentoring 100+ students each semester.",
-      "Assisted students with laboratory experiments, connecting theoretical mechanics concepts to practical engineering applications and real-world problems.",
-      "Supported exam preparation, proctoring and grading while providing guidance on problem-solving and course concepts.",
+      "Taught 2 weekly Mechanics of Materials recitations (50+ students each; 110–120 per semester) over 4 semesters.",
+      "Held weekly office hours to re-explain missed concepts and help students one-on-one.",
     ],
-    stack: ["Mechanics of Materials", "Lab Instruction", "Mentoring"],
+    stack: ["Mechanics of Materials", "Teaching"],
   },
   {
     company: "Tata Sikorsky",
     title: "CAD Designer",
-    location: "India",
+    location: "Hyderabad, India",
     start: "Dec 2021",
     end: "Dec 2022",
     summary:
-      "Aerospace flight-control hardware — pulleys, guide brackets, tooling and tolerance analysis.",
+      "Aerospace flight-control hardware — pulleys, guide brackets, GD&T drawings and tolerance stack-ups.",
     bullets: [
-      "Designed flight control cable pulleys and mechanical guide brackets using Siemens NX and SolidWorks, supporting aerospace manufacturing and assembly requirements.",
-      "Improved manufacturing cycle time by 8% by optimizing designs for automated production cells.",
-      "Performed tolerance stack-up analysis (GD&T) to ensure manufacturability and eliminate assembly defects.",
-      "Designed and evaluated tooling and fixtures to improve assembly efficiency and support production readiness.",
-      "Collaborated with manufacturing and supplier teams, applying DFMEA/DFSS methods to improve product quality and reduce design and production risks.",
+      "Designed flight-control cable pulleys and guide brackets to new dimensions in Creo and SolidWorks.",
+      "Added edge radii to pulleys and brackets, removing manual deburring and cutting monthly production time 8%.",
+      "Updated legacy designs in the company library with edge radii so future designs started from the improved version.",
+      "Created manufacturing drawings with GD&T for machined, cast, and sheet metal parts.",
+      "Ran tolerance stack-ups to catch fit problems before release to production.",
     ],
-    stack: ["Siemens NX", "SolidWorks", "GD&T", "Tolerance Stack-Up", "DFMEA", "Tooling Design"],
+    stack: ["Creo", "SolidWorks", "GD&T", "Tolerance Stack-Up", "Manufacturing Drawings"],
   },
   {
     company: "Bharat Electronics Limited (BEL)",
     title: "Manufacturing Engineer",
-    location: "India",
+    location: "Machilipatnam, India",
     start: "Dec 2020",
     end: "Nov 2021",
     summary:
-      "Cold-storage chamber and HVAC manufacturing — SOPs, time studies, BOM and configuration control.",
+      "Walk-in cold rooms — fabrication, assembly, on-site installation and service.",
     bullets: [
-      "Supported manufacturing and assembly of cold-storage chambers and HVAC equipment, adapting component layouts to chamber design and space constraints.",
-      "Developed SOPs and conducted time studies to identify production bottlenecks, contributing to a 25% reduction in manufacturing cycle time.",
-      "Managed and interpreted BOMs and supported first-article validation, ensuring accurate product configuration and manufacturing documentation.",
-      "Implemented ECO/ECN design changes, updating BOMs, drawings and manufacturing processes to support production readiness and configuration control.",
-      "Performed RCA, 5-Why analysis and corrective actions to resolve manufacturing issues, reduce defects and improve equipment reliability.",
+      "Built 42 walk-in cold rooms: made insulated wall, ceiling, and door panels to each site's dimensions, assembled evaporator and condensing units from sister-plant parts, and installed at client sites.",
+      "Cut on-site setup time per cold room by 25%, from 4 days to 3, by finding an assembly bottleneck and coordinating with local civil engineers on site.",
+      "Handled service calls after installation, troubleshooting and repairing panels, doors, evaporators, and condensing units.",
+      "Fabricated and installed out-of-stock components on site with the team, keeping installations on schedule.",
+      "Used root cause analysis and 5-Why to fix recurring assembly defects.",
     ],
-    stack: ["SOP Development", "Time Studies", "BOM Management", "ECO/ECN", "RCA", "5-Why"],
+    stack: ["Assembly", "Installation", "Process Improvement", "Root Cause Analysis", "5-Why"],
   },
 ];
 
@@ -175,8 +178,9 @@ export const education: Education[] = [
     location: "Starkville, MS",
     end: "Dec 2025",
     detail: [
+      "GPA 3.5 / 4.0",
       "Graduate Teaching Assistant, Mechanics of Materials (4 semesters)",
-      "Ongoing research: celestial-mechanics-based asteroid orbit optimization",
+      "Research: asteroid orbit optimization (May 2024 – Present)",
     ],
   },
   {
@@ -184,7 +188,8 @@ export const education: Education[] = [
     field: "Aerospace Engineering",
     school: "Chandigarh University",
     location: "India",
-    end: "June 2022",
+    end: "May 2022",
+    detail: ["GPA 3.0 / 4.0"],
   },
 ];
 
@@ -209,75 +214,65 @@ export interface SkillGroup {
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: "CAD & Mechanical Design",
+    title: "CAD",
     code: "01",
     description:
-      "Parametric modelling, assemblies and production drawings across four major CAD platforms.",
+      "Creo and SolidWorks day to day; Siemens NX for parts that call for it.",
     skills: [
-      { name: "Siemens NX", level: 3 },
+      { name: "Creo", level: 3 },
       { name: "SolidWorks", level: 3 },
-      { name: "GD&T", level: 3 },
-      { name: "Tolerance Stack-Up", level: 3 },
-      { name: "DFM / DFA", level: 3 },
-      { name: "Creo", level: 2 },
-      { name: "CATIA V5", level: 2 },
+      { name: "Siemens NX", level: 2 },
+      { name: "AutoCAD", level: 1 },
+      { name: "CATIA V5", level: 1 },
     ],
   },
   {
-    title: "Prototyping & Testing",
+    title: "Design & Drafting",
     code: "02",
     description:
-      "From first printed fit-check through instrumented field validation against reference equipment.",
+      "Production drawings and the tolerance work that catches fit problems before release.",
     skills: [
-      { name: "3D Printing", level: 3 },
-      { name: "Prototype Development", level: 3 },
-      { name: "Testing & Validation", level: 2 },
-      { name: "Tooling & Fixture Design", level: 2 },
+      { name: "GD&T (ASME Y14.5)", level: 3 },
+      { name: "Tolerance Stack-Up", level: 3 },
+      { name: "2D Engineering Drawings", level: 3 },
+      { name: "Sheet Metal & Weldment Design", level: 2 },
     ],
   },
   {
-    title: "Quality & Problem Solving",
+    title: "Manufacturing",
     code: "03",
     description:
-      "Structured failure analysis used as a working method, not as after-the-fact paperwork.",
+      "Designing for how parts are actually made, assembled and installed.",
     skills: [
-      { name: "Root Cause Analysis", level: 3 },
-      { name: "5-Why Analysis", level: 3 },
-      { name: "Troubleshooting", level: 3 },
-      { name: "DFMEA", level: 2 },
+      { name: "DFM / DFA", level: 3 },
+      { name: "Tooling & Fixture Design", level: 3 },
+      { name: "3D Printing / Prototyping", level: 3 },
+      { name: "Time Studies", level: 2 },
+      { name: "Lean (5S, Kaizen)", level: 2 },
     ],
   },
   {
-    title: "Production & Configuration",
+    title: "Quality & Documentation",
     code: "04",
     description:
-      "Keeping what is built matched to what was designed — BOMs, change orders and documentation.",
+      "Structured problem solving and the paperwork that keeps builds matched to designs.",
     skills: [
-      { name: "BOM Management", level: 3 },
-      { name: "Manufacturing Documentation", level: 3 },
+      { name: "Root Cause Analysis (5-Why)", level: 3 },
+      { name: "DFMEA", level: 2 },
+      { name: "First-Article Inspection", level: 2 },
+      { name: "Bill of Materials (BOM)", level: 2 },
       { name: "ECO / ECN", level: 2 },
-      { name: "Production Support", level: 2 },
+      { name: "SOPs & Work Instructions", level: 2 },
+      { name: "Microsoft Excel", level: 2 },
     ],
   },
   {
-    title: "Manufacturing & Process",
+    title: "Analysis",
     code: "05",
     description:
-      "Time studies, bottleneck analysis and standard work that measurably move cycle time.",
+      "Hand calculations and simulation to back design decisions and research work.",
     skills: [
-      { name: "Process Optimization", level: 3 },
-      { name: "SOP Development", level: 3 },
-      { name: "Assembly Process Improvement", level: 3 },
-      { name: "Lean Manufacturing", level: 2 },
-      { name: "Six Sigma", level: 2 },
-    ],
-  },
-  {
-    title: "Analysis & Programming",
-    code: "06",
-    description:
-      "Simulation and numerical work supporting design decisions and orbital-mechanics research.",
-    skills: [
+      { name: "Engineering Hand Calculations", level: 3 },
       { name: "Python", level: 2 },
       { name: "MATLAB", level: 2 },
       { name: "ANSYS", level: 2 },

@@ -68,10 +68,10 @@ const ticker = [...skillTicker, ...skillTicker];
             data-reveal
             data-reveal-delay="240"
           >
-            I design equipment that has to work outside the lab — from aerospace
-            flight-control hardware to field research instrumentation. CAD,
-            GD&amp;T and DFM up front; prototypes, testing and process data to
-            prove it.
+            Nearly 3 years designing, building and installing hardware — from
+            aerospace flight-control parts to walk-in cold rooms and custom
+            university equipment. Creo, SolidWorks and Siemens NX, with GD&amp;T
+            and DFM built in from the start.
           </p>
 
           <div
@@ -213,7 +213,7 @@ const ticker = [...skillTicker, ...skillTicker];
               [
                 ["Degree", "M.S. Aerospace Engineering"],
                 ["Institution", "Mississippi State University"],
-                ["Experience", "3+ years"],
+                ["Industry experience", "Nearly 3 years"],
               ].map(([k, v]) => (
                 <div class="flex justify-between gap-4">
                   <span class="mono-label">{k}</span>
@@ -255,7 +255,7 @@ const ticker = [...skillTicker, ...skillTicker];
   <Section
     eyebrow="Selected work"
     title="Projects"
-    lead="Four case studies spanning aerospace hardware, research instrumentation, manufacturing process improvement, and orbital-mechanics research."
+    lead="Case studies from my work in cold-room manufacturing, aerospace part design, university equipment design, and orbital-mechanics research."
   >
     <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
@@ -276,9 +276,10 @@ const ticker = [...skillTicker, ...skillTicker];
             Asteroid orbit<br />optimization
           </h2>
           <p class="mt-5 text-base text-muted leading-relaxed max-w-md">
-            A Python framework propagating real JPL ephemeris data to find the
-            minimum ΔV — and the intervention window — required to redirect a
-            near-Earth asteroid into a stable Earth, Moon or Mars vicinity orbit.
+            A Python tool that models asteroid trajectories with celestial
+            mechanics and uses NASA JPL Small-Body Database orbital data to find
+            the lowest ΔV needed to move candidate asteroids into stable orbits
+            near Earth, the Moon, or Mars.
           </p>
           <p class="mt-4 text-sm text-dim leading-relaxed max-w-md">
             The research page runs an interactive browser implementation of the

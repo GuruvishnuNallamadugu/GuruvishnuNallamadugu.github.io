@@ -10,13 +10,13 @@ const totalSkills = skillGroups.reduce((n, g) => n + g.skills.length, 0);
 <BaseLayout
   active="/skills/"
   title="Technical Skills | Guruvishnu Nallamadugu"
-  description="CAD (Siemens NX, SolidWorks, Creo, CATIA V5), GD&T and tolerance stack-up, DFM/DFA, 3D printing and prototyping, RCA/5-Why/DFMEA, BOM and ECO/ECN management, Lean and Six Sigma, Python and MATLAB."
+  description="CAD (Creo, SolidWorks, Siemens NX, AutoCAD, CATIA V5), GD&T and tolerance stack-up, DFM/DFA, tooling and fixture design, 3D printing, time studies and Lean, RCA/5-Why, DFMEA, BOM and ECO/ECN, ANSYS, MATLAB and Python."
 >
   <div class="pt-32">
     <Section
       eyebrow="Capability"
       title="Technical skills"
-      lead={`${totalSkills} capabilities across six disciplines, each rated by depth of working experience rather than exposure.`}
+      lead={`${totalSkills} capabilities across ${skillGroups.length} disciplines, each rated by depth of working experience rather than exposure.`}
     >
       <!-- Legend -->
       <div

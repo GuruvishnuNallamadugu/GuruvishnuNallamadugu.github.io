@@ -1,12 +1,12 @@
 ---
 title: "Asteroid Orbit Optimization"
-subtitle: "Minimum-ΔV transfers for future in-space resource utilisation"
+subtitle: "Finding the lowest ΔV to move an asteroid into a stable orbit"
 order: 4
-summary: "A Python framework modelling two-dimensional asteroid trajectories from real JPL ephemeris data — propagating orbits to find optimal intervention windows and the minimum ΔV needed to redirect near-Earth asteroids into stable Earth, Moon or Mars vicinity orbits."
+summary: "A Python tool that models and plots asteroid trajectories using celestial mechanics, and uses NASA JPL Small-Body Database orbital data to find the lowest ΔV needed to move candidate asteroids into stable orbits near Earth, the Moon, or Mars."
 organization: "Mississippi State University — Research"
 period: "May 2024 — Present"
 tags: ["Research", "Simulation", "Python", "Orbital Mechanics"]
-stack: ["Python", "ANSYS", "NASA JPL SBDB", "Numerical Methods", "Optimization"]
+stack: ["Python", "Celestial Mechanics", "NASA JPL SBDB", "Numerical Methods"]
 metric:
   value: "min ΔV"
   label: "Optimisation objective"
@@ -14,46 +14,24 @@ diagram: "orbit"
 featured: true
 ---
 
-## Premise
+## The question
 
-In-space resource utilisation depends on getting material somewhere useful. A near-Earth asteroid already carries the mass; the engineering question is what it costs to move it into an orbit where it can be reached — and when that cost is lowest.
+Moving a near-Earth asteroid somewhere useful — into a stable orbit near Earth, the Moon or Mars — costs propellant, measured as ΔV. The research question is how small that ΔV can be for a given asteroid, and which candidates are cheapest to move.
 
-This research builds a computational framework to answer that question quantitatively for candidate near-Earth asteroids.
+## Real data
 
-## Real data, not toy inputs
+The tool works from **orbital data in the NASA JPL Small-Body Database** for candidate near-Earth asteroids, rather than invented starting conditions — so results describe real objects and can be checked against a published reference.
 
-The model runs on **real orbital elements and ephemeris data retrieved from the NASA Jet Propulsion Laboratory Small-Body Database** for near-Earth asteroids.
+## The tool
 
-This matters. A propagator validated against invented initial conditions tells you about your integrator; a propagator running on published ephemerides tells you about the actual objects, and lets results be checked against an external reference.
+I built a **Python tool that models and plots asteroid trajectories** using celestial mechanics. It propagates each asteroid's orbit and searches for the transfer that reaches a **stable orbit** near the target body for the **lowest ΔV**.
 
-## The framework
-
-I developed a framework in **Python** to model and visualise two-dimensional asteroid trajectories from first principles of celestial mechanics.
-
-The core loop is orbit propagation: given a state, advance it under gravitational dynamics and observe where the object goes. On top of that sits the question the research actually cares about — **where in that trajectory does an applied impulse buy the most orbital change for the least propellant.**
-
-## Finding the intervention window
-
-Orbital transfers are exquisitely sensitive to timing. The same ΔV applied at different points in an orbit produces wildly different results, because the change in orbital energy depends on where in the orbit the impulse is applied.
-
-The simulation propagates candidate orbits to **identify optimal intervention windows** and determine the **minimum ΔV required** to redirect a candidate asteroid into a stable orbit in the vicinity of Earth, the Moon, or Mars.
-
-## Optimisation and stability
-
-Applying **numerical methods and optimisation techniques**, the framework minimises propulsion requirements — but under a constraint that makes the problem substantially harder: the resulting orbit has to remain **stable over the long term**.
-
-A minimum-ΔV solution that places an asteroid into a configuration that decays or escapes within a few years is not a solution. Long-term stability is therefore treated as a constraint on the optimisation rather than as something checked afterwards.
-
-## Engineering simulation
-
-Beyond the orbital mechanics, I performed **engineering simulations in ANSYS** to evaluate force application strategies, orbital stability and mission feasibility.
-
-This is the bridge from astrodynamics to hardware: the trajectory analysis says what impulse is required and when, but whether that impulse can be delivered to a real body — how force is applied, and what it does to the object — is a mechanical problem.
+Timing matters: the same impulse applied at different points in an orbit changes it by very different amounts, so the search covers where along the orbit the burn happens as well as how big it is.
 
 ## Visualisation
 
-The framework produces **2-D visualisations of orbital transfers**, which allow trajectory alternatives to be compared directly and support mission planning. The interactive simulator on the [research page](/research/) is a browser implementation of the same Keplerian propagation the framework is built on.
+The tool plots the trajectories and transfers so alternatives can be compared side by side. The interactive simulator on the [research page](/research/) is a browser version of the same Keplerian propagation.
 
 ## Status
 
-Ongoing since May 2024. Current work continues on expanding the candidate set and refining the optimisation under long-term stability constraints.
+Ongoing since May 2024.

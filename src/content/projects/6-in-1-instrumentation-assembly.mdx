@@ -1,62 +1,45 @@
 ---
-title: "6-in-1 Field Instrumentation Assembly"
-subtitle: "Consolidating six measurement devices into one deployable system"
-order: 1
-summary: "Redesigned distributed research instrumentation into a single compact assembly — reducing footprint, simplifying field installation, and validated against reference equipment to confirm the housing does not perturb sensor readings."
+title: "6-in-1 Field Instrument"
+subtitle: "One 3D-printed unit replacing six separate instruments"
+order: 3
+summary: "Designed a 3D-printed 6-in-1 field instrument at Mississippi State University that houses the sensors, battery and fan in one unit — replacing six separate instruments. Tested and validated with the requesting department before final build."
 organization: "Mississippi State University"
 period: "2026 — Present"
-tags: ["Mechanical Design", "DFM/DFA", "Prototyping", "Field Validation"]
-stack: ["3D CAD", "3D Printing", "DFM/DFA", "Tolerance Analysis", "Field Testing"]
+tags: ["Mechanical Design", "DFM/DFA", "Prototyping", "3D Printing"]
+stack: ["Creo", "SolidWorks", "Siemens NX", "3D Printing", "Prototyping"]
 metric:
   value: "6→1"
-  label: "Instruments consolidated"
+  label: "Instruments replaced"
 diagram: "assembly"
 featured: true
 ---
 
 ## The problem
 
-Environmental and soil research in the field depends on several separate instruments — each with its own housing, mount, cabling and installation procedure. Deployed individually, they consume bench and field space, multiply the number of installation steps, and make it harder to guarantee that every instrument is sampling the same location under the same conditions.
+A research group was using **six separate instruments** in the field. Each one had to be carried, set up and powered on its own, which added gear and setup work to every field visit.
 
-The brief was to reduce that overhead: take the existing distributed equipment and produce something a researcher could carry to a site and install without a half-day of setup.
+## The design
 
-## Constraints
+I designed a single **3D-printed field instrument** that brings the sensors, the battery and a fan together in one unit — **replacing all six instruments**.
 
-- **Sensor integrity is non-negotiable.** Consolidation is worthless if packing instruments together changes what they measure. The mechanical design had to be proven neutral with respect to sensor accuracy.
-- **Field-installable.** Assembly and installation had to be possible outside a lab, with hand tools, by researchers rather than technicians.
-- **Footprint.** The whole point was reduced space utilisation, so envelope was a hard design driver rather than a nice-to-have.
-- **Serviceability.** Six instruments in one enclosure means any one of them may need access for calibration or replacement.
+Combining them meant planning the layout around how the unit would be built and used:
 
-## Approach
+- every sensor placed where it can still take its reading
+- the battery and fan packaged inside the same body
+- parts designed to print and assemble cleanly, so revisions were quick
 
-I started from the researchers' functional requirements rather than from the existing hardware — what has to be measured, where, and how often — and worked back to an envelope that could hold all six devices in a defensible arrangement.
+## Build, test, revise
 
-The design work ran in 3D CAD with **DFM and DFA applied as active constraints**, not as a review step at the end. That meant deciding early on:
+3D printing let me check each version physically rather than only on screen — fit, assembly and how the unit handled in use. Findings went straight back into the CAD model for the next print.
 
-- **Material selection** appropriate to outdoor field exposure
-- **Fastening methods** chosen for assembly with hand tools and for repeat disassembly during servicing
-- **Accessibility** — every instrument reachable without dismantling the others
-- **Tolerances** set against how the parts would actually be produced, so that fit was predictable rather than hopeful
-
-## Prototyping
-
-Each design iteration was **3D printed and physically checked** rather than judged on screen. Printed prototypes were used to evaluate fit, form, component integration and function — where instruments interfered, where a fastener could not be reached, where a wall was too thin or a cable route too tight.
-
-Those findings fed directly back into the CAD model. The cycle — model, print, check, revise — ran until the assembly satisfied both the dimensional constraints and the researchers' handling feedback.
-
-## Validation
-
-The design was validated in the field alongside the research teams. Measurements from the prototype integrated instrument were **compared directly against reference equipment** under the same conditions.
-
-This was the test that mattered: it confirmed measurement consistency and, critically, that the mechanical design did not interfere with sensor accuracy or performance. A consolidated package that quietly biased its own readings would have been a failure regardless of how well it packed.
+As with every design in this role, I **tested and validated the unit with the requesting department before the final build**, and reviewed the design with the manufacturing and product development teams before fabrication.
 
 ## Outcome
 
-- Six separate instruments integrated into a **single deployable assembly**
-- **Reduced overall footprint** and improved space utilisation
-- **Simplified field installation** relative to deploying instruments individually
-- Measurement consistency **verified against reference equipment**
+- Six separate instruments replaced by **one 3D-printed unit**
+- Sensors, battery and fan housed together
+- Validated with the requesting department before final build
 
-## What I'd carry forward
+## Part of a wider role
 
-The most valuable decision was refusing to treat validation as a formality. Consolidating instruments creates exactly the conditions where thermal, mechanical and electromagnetic cross-talk appear, and the only honest way to close that out is a side-by-side comparison against known-good equipment in real field conditions.
+This is one of **40+ custom products** I've designed and built for campus departments at Mississippi State, alongside work such as redesigned sample dryer racks (fixing warped frames, upgrading the mesh, adding insulated handles) and wall-mounted storage with adjustable dual-arm clamps that hold irregular tools off the floor.

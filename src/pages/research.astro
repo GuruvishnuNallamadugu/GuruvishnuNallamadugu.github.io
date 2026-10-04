@@ -6,8 +6,8 @@ import OrbitSimulator from "@/components/OrbitSimulator";
 const method = [
   {
     code: "01",
-    title: "Real ephemeris data",
-    body: "Orbital elements and ephemeris for near-Earth asteroids retrieved from the NASA JPL Small-Body Database. Propagating published elements rather than invented initial conditions means results can be checked against an external reference.",
+    title: "Real orbital data",
+    body: "Orbital data for candidate near-Earth asteroids comes from the NASA JPL Small-Body Database. Working from published elements rather than invented starting conditions means results can be checked against an external reference.",
   },
   {
     code: "02",
@@ -26,8 +26,8 @@ const method = [
   },
   {
     code: "05",
-    title: "Engineering simulation",
-    body: "ANSYS simulations evaluate force application strategies, orbital stability and mission feasibility — bridging from astrodynamics to the mechanical problem of actually delivering the impulse to a real body.",
+    title: "Candidate comparison",
+    body: "Running the same search across several candidate asteroids ranks them by the lowest ΔV each one needs, so the cheapest targets for each destination stand out.",
   },
   {
     code: "06",
@@ -40,7 +40,7 @@ const method = [
 <BaseLayout
   active="/research/"
   title="Research | Guruvishnu Nallamadugu"
-  description="Celestial-mechanics-based asteroid orbit optimization for future space resource utilization — a Python framework propagating real NASA JPL ephemeris data to find minimum-ΔV transfers, with an interactive browser simulator."
+  description="Celestial-mechanics-based asteroid orbit optimization for future space resource utilization — a Python tool using NASA JPL Small-Body Database orbital data to find minimum-ΔV transfers, with an interactive browser simulator."
 >
   <div class="pt-32">
     <!-- ==================== HEADER ==================== -->
