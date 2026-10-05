@@ -56,7 +56,7 @@ summary: "Two sentences for the card and page header."
 organization: "Where you did it"
 period: "2024 — 2025"
 tags: ["Mechanical Design", "GD&T"] # become filter chips on /projects
-stack: ["SolidWorks", "ANSYS"] # sidebar list on the case-study page
+stack: ["Creo", "SolidWorks"] # sidebar list on the case-study page
 metric:
   value: "8%" # the big number on the card
   label: "Cycle time improvement"

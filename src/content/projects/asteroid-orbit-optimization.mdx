@@ -2,11 +2,11 @@
 title: "Asteroid Orbit Optimization"
 subtitle: "Finding the lowest ΔV to move an asteroid into a stable orbit"
 order: 4
-summary: "A Python tool that models and plots asteroid trajectories using celestial mechanics, and uses NASA JPL Small-Body Database orbital data to find the lowest ΔV needed to move candidate asteroids into stable orbits near Earth, the Moon, or Mars."
+summary: "A Python tool that models and plots asteroid trajectories using celestial mechanics, and uses NASA JPL Small-Body Database orbital data to find the lowest delta-V needed to move candidate asteroids into stable orbits near Earth, the Moon, or Mars. Ansys STK is used for orbit propagation and transfer windows."
 organization: "Mississippi State University — Research"
 period: "May 2024 — Present"
 tags: ["Research", "Simulation", "Python", "Orbital Mechanics"]
-stack: ["Python", "Celestial Mechanics", "NASA JPL SBDB", "Numerical Methods"]
+stack: ["Python", "Ansys STK", "Celestial Mechanics", "NASA JPL SBDB"]
 metric:
   value: "min ΔV"
   label: "Optimisation objective"
@@ -27,6 +27,10 @@ The tool works from **orbital data in the NASA JPL Small-Body Database** for can
 I built a **Python tool that models and plots asteroid trajectories** using celestial mechanics. It propagates each asteroid's orbit and searches for the transfer that reaches a **stable orbit** near the target body for the **lowest ΔV**.
 
 Timing matters: the same impulse applied at different points in an orbit changes it by very different amounts, so the search covers where along the orbit the burn happens as well as how big it is.
+
+## Ansys STK
+
+I use **Ansys STK (Systems Tool Kit)** for **orbit propagation** and to find **transfer windows** — the points along an orbit where moving to the target body costs the least ΔV.
 
 ## Visualisation
 
